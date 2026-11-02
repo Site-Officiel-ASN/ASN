@@ -1,0 +1,2553 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alliance Sociale Noocratique (ASN) — Programme Officiel</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        asnSky: '#6bc3e9',
+                        asnYellow: '#facc15',
+                        asnGreen: '#16a34a',
+                        asnDark: '#0f172a',
+                        articleBg: '#def0ff'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #6bc3e9;
+        }
+        h1, h2, h3, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        #quiz-q-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            line-height: 1.5;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .global-gradient-bg {
+            background: linear-gradient(180deg, #ffffff 0%, #e0f2fe 35%, #93c5fd 65%, #6bc3e9 100%);
+            min-height: 900px;
+        }
+        .article-card-anchor {
+            scroll-margin-top: 130px;
+        }
+        .score-board-anchor {
+            scroll-margin-top: 140px;
+        }
+        .hp-field {
+            display: none !important;
+            visibility: hidden !important;
+        }
+
+        /* Styles spécifiques pour le volet Jeu des Terroirs */
+        .score-board {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #0369a1;
+        }
+        .game-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+        }
+        .map-container {
+            max-width: 600px;
+            margin: 1rem auto;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            border: 1px solid #cbd5e1;
+            background: white;
+        }
+        .map-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .ecoregions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .eco-btn {
+            background: #ffffff;
+            border: 2px solid #cbd5e1;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .eco-btn:hover:not(:disabled) {
+            background: #e0f2fe;
+            border-color: #0284c7;
+            color: #0369a1;
+        }
+        .eco-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .feedback {
+            margin-top: 1rem;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+        .feedback.success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        .feedback.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+        .territory-img {
+            max-width: 600px;
+            width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            margin: 0.75rem auto 0 auto;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: block;
+        }
+        .btn-next {
+            background: #0284c7;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
+            display: none;
+            transition: background 0.2s;
+        }
+        .btn-next:hover {
+            background: #0369a1;
+        }
+        .layer-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .zoom-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .zoom-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            color: #334155;
+            transition: background 0.2s;
+        }
+        .zoom-btn:hover {
+            background: #cbd5e1;
+        }
+        /* Conteneur avec ascenseurs corrigé pour un alignement haut-gauche et bas-droite irréprochable */
+        .layer-wrapper {
+            width: 100%;
+            height: 480px;
+            overflow: auto;
+            position: relative;
+            background: #0f172a;
+            border-radius: 0.75rem;
+            border: 1px solid #cbd5e1;
+        }
+        .layer-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-origin: top left;
+            transition: transform 0.2s ease-out;
+        }
+        .layer-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+            user-select: none;
+        }
+        .slider-group {
+            margin-top: 1.5rem;
+        }
+        .slider-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #334155;
+            margin-bottom: 0.5rem;
+        }
+        .slider-group input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col min-h-screen">
+
+    <div class="global-gradient-bg">
+
+    <!-- HEADER FIXE ET BARRE DE PROGRESSION -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-sky-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo ASN -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('accueil')">
+                    <img src="https://zupimages.net/up/26/44/oz9u.png" alt="Logo ASN" class="h-14 w-auto object-contain">
+                    <div class="hidden sm:block">
+                        <span class="text-xl font-black text-slate-800 tracking-tight block">A.S.N</span>
+                        <span class="text-xs text-sky-700 font-semibold uppercase tracking-wider">Alliance Sociale Noocratique</span>
+                    </div>
+                </div>
+
+                <!-- Nav desktop -->
+                <nav class="hidden lg:flex items-center space-x-1">
+                    <button onclick="switchTab('accueil')" id="nav-accueil" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-sky-800 bg-sky-50">Accueil</button>
+                    <button onclick="switchTab('programme')" id="nav-programme" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-sky-800 hover:bg-sky-50">Programme (10 Volets)</button>
+                    <button onclick="switchTab('vieme-republique')" id="nav-vieme-republique" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-sky-800 hover:bg-sky-50">VIème République</button>
+                    <button onclick="switchTab('quiz')" id="nav-quiz" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-amber-700 hover:bg-amber-50 flex items-center gap-1.5">
+                        <i class="fa-solid fa-clipboard-question"></i> Quiz 60Q
+                    </button>
+                    <button onclick="switchTab('jeu')" id="nav-jeu" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-emerald-700 hover:bg-emerald-50 flex items-center gap-1.5">
+                        <i class="fa-solid fa-gamepad"></i> Jeu des terroirs
+                    </button>
+                    <button onclick="switchTab('contact')" id="nav-contact" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-sky-800 hover:bg-sky-50">Soutenir gratuitement</button>
+                </nav>
+
+                <!-- CTA & Indicateur Admin -->
+                <div class="hidden sm:flex items-center gap-2">
+                    <div id="admin-badge" class="hidden items-center gap-1.5 bg-emerald-100 text-emerald-800 px-3 py-1.5 rounded-xl text-xs font-bold border border-emerald-300">
+                        <i class="fa-solid fa-shield-halved"></i> Mode Admin Actif
+                        <button onclick="logoutAdmin()" class="ml-1 text-red-600 hover:text-red-800 font-bold px-1" title="Quitter le mode admin"><i class="fa-solid fa-power-off"></i></button>
+                    </div>
+                </div>
+
+                <!-- Bouton Mobile -->
+                <div class="lg:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-slate-700 p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- BANNIÈRE SUIVI DE LECTURE DU PROGRAMME -->
+        <div class="bg-sky-900 text-white py-1.5 px-4 text-xs font-semibold shadow-inner">
+            <div class="max-w-7xl mx-auto flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-book-open text-amber-400"></i>
+                    <span>Avancement de lecture : <strong id="progress-text" class="text-amber-300">Vous avez consulté 0% du programme de l'ASN</strong></span>
+                </div>
+                <div class="w-32 bg-sky-950 rounded-full h-2 overflow-hidden border border-sky-700 hidden sm:block">
+                    <div id="progress-bar-fill" class="bg-amber-400 h-full transition-all duration-300" style="width: 0%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Mobile -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-sky-100 px-4 pt-2 pb-4 space-y-1 shadow-lg">
+            <button onclick="switchTab('accueil'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-sky-50">Accueil</button>
+            <button onclick="switchTab('programme'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-sky-50">Programme (10 axes)</button>
+            <button onclick="switchTab('vieme-republique'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-sky-50">VIème République</button>
+            <button onclick="switchTab('quiz'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-bold text-amber-600 hover:bg-amber-50">Quiz (60 questions)</button>
+            <button onclick="switchTab('jeu'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-bold text-emerald-600 hover:bg-emerald-50">Jeu des terroirs</button>
+            <button onclick="switchTab('contact'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-sky-50">Soutenir gratuitement</button>
+        </div>
+    </header>
+
+    <!-- CONTENU PRINCIPAL -->
+    <main class="flex-grow">
+
+        <!-- ================= 1. ACCUEIL ================= -->
+        <section id="content-accueil" class="tab-content active">
+            <div class="py-16 lg:py-24">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <!-- SECTION FONDEMENTS ASN -->
+                    <div class="bg-white/95 backdrop-blur border border-white rounded-3xl p-8 lg:p-12 shadow-xl mb-16">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center mb-8">
+                            <div class="lg:col-span-8">
+                                <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-4">
+                                    <i class="fa-solid fa-leaf"></i> Écorégionalisme & Science
+                                </span>
+                                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight">
+                                    Fondements de l'Alliance Sociale-Noocratique
+                                </h1>
+                            </div>
+                            <div class="lg:col-span-4 flex justify-center lg:justify-end">
+                                <img src="https://zupimages.net/up/26/44/qj8x.png" alt="Fondements ASN" class="w-full max-w-xs h-auto rounded-2xl shadow-lg border border-slate-100 object-cover">
+                            </div>
+                        </div>
+
+                        <div class="space-y-6 text-slate-700 leading-relaxed font-normal text-sm sm:text-base">
+                            <p>
+                                Au cœur du projet de l'Alliance Sociale-Noocratique (ASN) réside un pacte politique audacieux : réconcilier la souveraineté du peuple avec l'exigence de la compétence, de la raison et de la probité. Pour bâtir une démocratie à la hauteur des défis complexes du XXIe siècle, l'ASN s'appuie sur quatre piliers indissociables :
+                            </p>
+
+                            <ul class="space-y-3 pl-2 sm:pl-4">
+                                <li class="flex items-start gap-3">
+                                    <span class="mt-1 flex-shrink-0 w-2 h-2 rounded-full bg-sky-600"></span>
+                                    <span><strong>La Noocratie (Le gouvernement de la conscience et de l'intelligence) :</strong> Elle érige la recherche de la vérité, de la rigueur scientifique et de l'intérêt général au-dessus des calculs partisans et des dogmes idéologiques.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="mt-1 flex-shrink-0 w-2 h-2 rounded-full bg-emerald-600"></span>
+                                    <span><strong>La Sapientocratie (Le gouvernement de la sagesse) :</strong> Elle veille à ce que chaque décision politique soit guidée par une vision à long terme, respectueuse de la dignité humaine, de l'équilibre de la nature et des générations futures.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="mt-1 flex-shrink-0 w-2 h-2 rounded-full bg-amber-500"></span>
+                                    <span><strong>L'Épistocratie (Le gouvernement par la connaissance) :</strong> Elle valorise la maîtrise des dossiers complexes, l'expertise et la formation continue, garantissant que l'action publique s'appuie sur des faits avérés plutôt que sur l'émotion instantanée ou la démagogie.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="mt-1 flex-shrink-0 w-2 h-2 rounded-full bg-indigo-600"></span>
+                                    <span><strong>La Méritocratie républicaine :</strong> Elle assure que les responsabilités et la reconnaissance collective reviennent à ceux qui font preuve d'engagement, d'effort, d'intégrité et de dévouement au service de la collectivité.</span>
+                                </li>
+                            </ul>
+
+                            <p>
+                                Loin d'être un système d'exclusion, l'ASN considère que la démocratie n'est pas seulement un droit, c'est une responsabilité. En arrachant le destin de la Nation aux logiques du marketing politique et du court-termisme, le projet redonne tout son sens au mot « République » : la chose publique confiée à des citoyens éclairés, ancrés dans leurs territoires et unis par la recherche de l'excellence collective.
+                            </p>
+                        </div>
+
+                        <div class="flex flex-wrap gap-4 pt-8 border-t border-slate-100 mt-8">
+                            <button onclick="switchTab('programme')" class="bg-sky-600 hover:bg-sky-700 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all text-sm flex items-center gap-2">
+                                <span>Découvrir le Programme</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                            <button onclick="switchTab('vieme-republique')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-landmark"></i>
+                                <span>Projet de VIème République</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION LES PILIERS DU PROJET ASN -->
+            <div class="pb-16">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto mb-12">
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Les Piliers du Projet ASN : Un Avenir d'Avance pour la France</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-white/95 backdrop-blur rounded-3xl p-8 shadow-xl border border-white flex flex-col justify-between">
+                            <div>
+                                <div class="mb-4">
+                                    <img src="https://zupimages.net/up/26/44/cudu.jpg" alt="Écologie de rupture" class="w-full h-48 object-cover rounded-2xl shadow-md mb-4">
+                                    <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                                        <span>🌿</span> Écologie de rupture et de responsabilité
+                                    </h3>
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+                                    L'ASN porte une vision écologique forte, pragmatique et intransigeante face à l'urgence climatique. Loin des postures punitives ou du statu quo, notre écologie s'appuie sur la science, l'anticipation à long terme et la planification stratégique. Il s'agit de restructurer notre modèle productif, d'accélérer la transition énergétique par l'innovation technologique et de protéger nos écosystèmes et notre souveraineté alimentaire. Préserver la nature, c'est d'abord garantir la pérennité de notre cadre de vie et de nos générations futures à travers une action publique guidée par la sagesse et la préservation du vivant.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/95 backdrop-blur rounded-3xl p-8 shadow-xl border border-white flex flex-col justify-between">
+                            <div>
+                                <div class="mb-4">
+                                    <img src="https://zupimages.net/up/26/44/61a8.png" alt="Renaissance des services publics" class="w-full h-48 object-cover rounded-2xl shadow-md mb-4">
+                                    <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                                        <span>🏥</span> Renaissance de nos services publics fondamentaux
+                                    </h3>
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+                                    L'éducation, la santé, la recherche et la culture — les quatre poumons de notre pacte républicain — sont aujourd'hui en état de perdition avancée par manque de vision et de moyens ciblés. L'ASN propose de les refonder totalement en redonnant le pouvoir et les budgets aux professionnels de terrain, aux soignants, aux enseignants et aux chercheurs. Réinvestir massivement dans ces secteurs, c'est recoudre le tissu social, garantir l'égalité des chances dès le plus jeune âge, et replacer le savoir, la science et l'émancipation culturelle au sommet de la hiérarchie des priorités de la Nation.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/95 backdrop-blur rounded-3xl p-8 shadow-xl border border-white flex flex-col justify-between">
+                            <div>
+                                <div class="mb-4">
+                                    <img src="https://zupimages.net/up/26/44/7zf8.png" alt="Nouvelle justice" class="w-full h-48 object-cover rounded-2xl shadow-md mb-4">
+                                    <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                                        <span>⚖️</span> Une nouvelle justice sociale, fiscale et démocratique
+                                    </h3>
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+                                    Pour en finir avec la fracture citoyenne, la 6ème République ASN réinvente le lien démocratique en renforçant l'intervention directe des citoyens dans les choix de l'État (via la Chambre Citoyenne et des référendums élargis). Sur le plan économique, la justice sociale s'incarne par une juste contribution des plus grandes fortunes et des multinationales les plus prospères afin de mieux redistribuer les richesses. Ce modèle novateur s'appuie sur une logique de « pancapitalisme » et de primes de méritocratie, récompensant l'effort, l'engagement et le travail réel plutôt que la rente passive.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/95 backdrop-blur rounded-3xl p-8 shadow-xl border border-white flex flex-col justify-between">
+                            <div>
+                                <div class="mb-4">
+                                    <img src="https://zupimages.net/up/26/44/dwtk.jpg" alt="Souveraineté et relance économique" class="w-full h-48 object-cover rounded-2xl shadow-md mb-4">
+                                    <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                                        <span>🚀</span> Souveraineté et relance économique par l'ambition nationale
+                                    </h3>
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+                                    Notre prospérité future passe par un double soutien : l'oxygène accordé à notre tissu de proximité et la puissance de frappe de nos grands projets d'État. D'une part, l'ASN simplifie drastiquement le quotidien et allège la pression sur les TPE, PME et les artisans qui font vivre nos territoires. D'autre part, l'État reprend son rôle de stratège en finançant massivement de grands programmes d'envergure nationale (informatique du futur, photovoltaïque innovant, spatial, e-fuel vert, hydrogène vert, nucléaire du futur, biotechnologies). Cette ambition assumée vise à placer la France en position de leader et de pionnier incontesté sur la scène internationale.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 2. PROGRAMME GENERAL (10 AXES) ================= -->
+        <section id="content-programme" class="tab-content py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-3">Le Programme ASN (10 Volets)</h2>
+                    <p class="text-slate-800 text-sm font-medium">Sélectionnez un volet pour consulter ses articles et sa vidéo de présentation.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="volets-grid">
+                    <!-- Généré dynamiquement en JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE DE DETAIL D'UN VOLET DU PROGRAMME ================= -->
+        <section id="content-volet-detail" class="tab-content py-16">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
+                    <button onclick="switchTab('programme')" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-slate-700 font-bold text-xs shadow-md hover:bg-slate-50 transition-all">
+                        <i class="fa-solid fa-arrow-left"></i> Retour aux 10 volets du programme
+                    </button>
+                    <!-- Bouton Admin pour modifier la vidéo & ajouter des articles -->
+                    <div id="volet-admin-actions" class="hidden items-center gap-2">
+                        <button id="edit-volet-video-btn" onclick="openVoletVideoEditor()" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-3 py-2 rounded-xl text-xs shadow-md transition-all flex items-center gap-1.5">
+                            <i class="fa-brands fa-youtube"></i> Éditer la vidéo du volet
+                        </button>
+                        <button onclick="addNewArticleToCurrentVolet()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-2 rounded-xl text-xs shadow-md transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-plus"></i> Ajouter un article
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl p-8 lg:p-12 shadow-xl border border-white">
+                    <span id="detail-volet-tag" class="px-3.5 py-1.5 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold uppercase tracking-wider">Volet 01</span>
+                    <h2 id="detail-volet-title" class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 mb-6">Titre du Volet</h2>
+
+                    <!-- Vidéo Youtube du volet si présente -->
+                    <div id="detail-video-container" class="mb-8 hidden">
+                        <h4 class="text-xs font-bold text-slate-800 mb-2 flex items-center gap-1.5">
+                            <i class="fa-brands fa-youtube text-red-600 text-sm"></i>
+                            <span>Présentation vidéo de ce volet</span>
+                        </h4>
+                        <div class="aspect-video w-full rounded-2xl overflow-hidden shadow-md bg-slate-900">
+                            <iframe id="detail-video-iframe" class="w-full h-full" src="" title="Vidéo Volet ASN" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+
+                    <!-- Sommaire des Articles avec Coché Vert -->
+                    <div id="volet-summary-box" class="bg-slate-50 border border-slate-100 p-6 rounded-2xl mb-8">
+                        <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-sky-600"></i> Sommaire des articles de ce volet
+                        </h3>
+                        <div id="detail-articles-summary" class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+                            <!-- Injected JS -->
+                        </div>
+                    </div>
+
+                    <!-- Contenu des Articles du volet -->
+                    <div id="detail-articles-body" class="space-y-8">
+                        <!-- Injected JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 3. PROJET DE VIÈME RÉPUBLIQUE ================= -->
+        <section id="content-vieme-republique" class="tab-content py-16">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+                <div class="text-center max-w-3xl mx-auto">
+                    <span class="px-3.5 py-1.5 bg-indigo-100 text-indigo-900 rounded-full text-xs font-bold uppercase tracking-wider">Institutionnel & Démocratique</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 mb-2">Projet de VIème République de l’ASN</h2>
+                    <p class="text-slate-700 text-sm">Une refonte démocratique totale articulée autour de la compétence, du territoire et de la souveraineté citoyenne.</p>
+                </div>
+
+                <!-- I. Architecture Législative & Représentation Territoriale -->
+                <div class="bg-white rounded-3xl p-8 lg:p-10 shadow-xl border border-white space-y-6">
+                    <h3 class="text-2xl font-bold text-slate-900 border-b pb-3 flex items-center gap-3">
+                        <span class="text-indigo-600 font-serif">I.</span> Architecture Législative & Représentation Territoriale
+                    </h3>
+                    <p class="text-sm text-slate-700 leading-relaxed">
+                        La République s'appuie sur une représentation équilibrée articulée autour de <strong>250 Territoires</strong> (234 en métropole + 16 pour l'Outre-mer et l'étranger).
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                        <div class="bg-sky-50/70 border border-sky-100 p-6 rounded-2xl">
+                            <h4 class="font-bold text-slate-900 text-base mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-chess-rook text-sky-700"></i> Le Sénat (251 sièges)
+                            </h4>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                Un sénateur par territoire (plus un sénateur dédié aux citoyens établis hors de France). Il incarne la souveraineté territoriale pure, garantit l'équité entre métropoles et zones périphériques/ultramarines, et détient un droit de veto sur les réformes territoriales.
+                            </p>
+                        </div>
+                        <div class="bg-sky-50/70 border border-sky-100 p-6 rounded-2xl">
+                            <h4 class="font-bold text-slate-900 text-base mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-users-rectangle text-sky-700"></i> L'Assemblée Nationale (400 sièges)
+                            </h4>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                Représentation populaire pondérée selon les bassins démographiques et les expertises.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 border border-slate-200 p-6 rounded-2xl space-y-4">
+                        <h4 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                            <i class="fa-solid fa-people-group text-indigo-600"></i> La Chambre Citoyenne de Consultation et d'Expertise (CCCE)
+                        </h4>
+                        <ul class="space-y-2 text-xs text-slate-700 pl-2">
+                            <li class="flex items-start gap-2">
+                                <span class="font-bold text-indigo-600">• Composition :</span>
+                                <span>Assemblée citoyenne composée de citoyens tirés au sort selon un maillage territorial et un profil de compétences (QCC/TAT).</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="font-bold text-indigo-600">• Fonctionnement :</span>
+                                <span>Se réunit 4 fois par an dans un bâtiment dédié lors de sessions trimestrielles intensives pour étudier de grands enjeux de société, auditer des experts et débattre.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="font-bold text-indigo-600">• Pouvoir végétatif :</span>
+                                <span>Produit à chaque session un Dossier de Proposition Souverain qui bénéficie d'un accès direct et obligatoire à l'ordre du jour de l'Assemblée Nationale et du Sénat, brisant ainsi le monopole de l'initiative législative des partis politiques.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Image 1 -->
+                    <div class="my-6 text-center">
+                        <div class="inline-block relative group cursor-pointer overflow-hidden rounded-xl shadow-md border border-slate-300 bg-white transition-all hover:shadow-xl max-w-md mx-auto" onclick="openImageModal('https://zupimages.net/up/26/44/7zf8.png', 'Architecture institutionnelle de la VIème République')">
+                            <img src="https://zupimages.net/up/26/44/7zf8.png" alt="Schéma institutionnel VIème République" class="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-bold text-xs p-2">
+                                <i class="fa-solid fa-magnifying-glass-plus text-lg"></i>
+                                <span>Cliquer pour zoomer</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-indigo-50/60 border border-indigo-100 p-6 rounded-2xl">
+                        <h4 class="font-bold text-slate-900 text-base mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-scale-balanced text-indigo-700"></i> Le Conseil de Surveillance Éthique (CSE)
+                        </h4>
+                        <p class="text-xs text-slate-700 leading-relaxed">
+                            Chapeau éthique de la République (14 Sages), le CSE remplace le Conseil Constitutionnel. Il garantit la dignité humaine, supervise la HARF (Haute Autorité de la Réalité Factuelle), supervise la neutralité du tirage au sort de la CCCE et dispose d'un veto suprême contre toute dérive technocratique ou liberticide, et dispose de la décision finale de démettre le gouvernement ou le président suite à une motion de censure lancée par le parlement et validée par au moins ¼ des députés.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- II. L'Élection Présidentielle & Le Scrutin à 3 Tours -->
+                <div class="bg-white rounded-3xl p-8 lg:p-10 shadow-xl border border-white space-y-6">
+                    <h3 class="text-2xl font-bold text-slate-900 border-b pb-3 flex items-center gap-3">
+                        <span class="text-indigo-600 font-serif">II.</span> L'Élection Présidentielle & Le Scrutin à 3 Tours
+                    </h3>
+                    <p class="text-sm text-slate-700 leading-relaxed">
+                        L'élection du Président de la République repose sur le <strong>suffrage universel épistocratique pondéré</strong> : chaque citoyen vote, mais son bulletin pèse de 1 à 5 points selon son QCC (Quotient de Compétence Civique) et sa tranche d'âge.
+                    </p>
+
+                    <!-- Image 2 -->
+                    <div class="my-6 text-center">
+                        <div class="inline-block relative group cursor-pointer overflow-hidden rounded-xl shadow-md border border-slate-300 bg-white transition-all hover:shadow-xl max-w-md mx-auto" onclick="openImageModal('https://zupimages.net/up/26/44/o3b7.jpg', 'Schéma du Scrutin Présidentiel à 3 Tours')">
+                            <img src="https://zupimages.net/up/26/44/o3b7.jpg" alt="Scrutin Présidentiel à 3 Tours" class="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-bold text-xs p-2">
+                                <i class="fa-solid fa-magnifying-glass-plus text-lg"></i>
+                                <span>Cliquer pour zoomer</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 pt-2">
+                        <h4 class="font-bold text-slate-900 text-sm uppercase tracking-wider">Le Déroulement du Scrutin :</h4>
+                        <ul class="space-y-3 text-xs text-slate-700 pl-2">
+                            <li class="flex items-start gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                                <span class="bg-indigo-600 text-white font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0">1</span>
+                                <div><strong>1ᵉʳ Tour :</strong> Filtrage et sélection des candidatures retenues.</div>
+                            </li>
+                            <li class="flex items-start gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                                <span class="bg-indigo-600 text-white font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0">2</span>
+                                <div><strong>2ᵉ Tour :</strong> Parmi les 4 candidats en lice, sélection des deux candidats humains arrivés en tête.</div>
+                            </li>
+                            <li class="flex items-start gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                                <span class="bg-indigo-600 text-white font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0">3</span>
+                                <div><strong>3ᵉ Tour (Triangulaire avec le Vote Blanc) :</strong> Duel direct entre les deux candidats humains face au Vote Blanc Sanction.</div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Image 3 -->
+                    <div class="my-6 text-center">
+                        <div class="inline-block relative group cursor-pointer overflow-hidden rounded-xl shadow-md border border-slate-300 bg-white transition-all hover:shadow-xl max-w-md mx-auto" onclick="openImageModal('https://zupimages.net/up/26/44/6od3.jpg', 'Triangulaire et Vote Blanc Sanction')">
+                            <img src="https://zupimages.net/up/26/44/6od3.jpg" alt="Triangulaire 3ème tour" class="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-bold text-xs p-2">
+                                <i class="fa-solid fa-magnifying-glass-plus text-lg"></i>
+                                <span>Cliquer pour zoomer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- III. Le « Triple Seuil » de Validation Présidentielle -->
+                <div class="bg-white rounded-3xl p-8 lg:p-10 shadow-xl border border-white space-y-6">
+                    <h3 class="text-2xl font-bold text-slate-900 border-b pb-3 flex items-center gap-3">
+                        <span class="text-indigo-600 font-serif">III.</span> Le « Triple Seuil » de Validation Présidentielle
+                    </h3>
+                    <p class="text-sm text-slate-700 leading-relaxed">
+                        Pour l’emporter, le vainqueur du 3ᵉ tour doit valider une triple condition cumulative :
+                    </p>
+                    
+                    <div class="space-y-4 pt-2">
+                        <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+                            <h4 class="font-bold text-slate-900 text-sm mb-1">1. Le Verrou National Pondéré</h4>
+                            <p class="text-xs text-slate-700">Obtenir la majorité relative des points de vote pondérés au niveau national.</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+                            <h4 class="font-bold text-slate-900 text-sm mb-1">2. Le Verrou Territorial (Les 100 Territoires / 40 %)</h4>
+                            <p class="text-xs text-slate-700">Être en tête dans au moins 100 des 250 territoires (40 % du maillage national minimum), interdisant tout plébiscite exclusivement métropolitain.</p>
+                        </div>
+                        <div class="p-4 bg-amber-50/70 border border-amber-200 rounded-2xl space-y-2">
+                            <h4 class="font-bold text-amber-900 text-sm mb-1">3. Le Verrou du Vote Blanc Sanction (Seuil des 30 %)</h4>
+                            <ul class="space-y-1.5 text-xs text-slate-700 pl-2">
+                                <li>• <strong>Si le Vote Blanc atteint ou dépasse 30 %</strong> des suffrages exprimés (ou surpasse les candidats humains), l'élection est annulée.</li>
+                                <li>• <strong>Sanction :</strong> Disqualification immédiate des candidats défaits lors du 2ème et 3ème tour et convocation d'un nouveau scrutin sous 5 mois avec de nouvelles candidatures.</li>
+                                <li>• <em>(Règle de sécurité : Lors du scrutin de reprise consécutif à une annulation, le veto suspensif du vote blanc est neutralisé pour garantir la désignation d'un chef d'État).</em></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IV. Sanctuarisation du Référendum -->
+                <div class="bg-white rounded-3xl p-8 lg:p-10 shadow-xl border border-white space-y-6">
+                    <h3 class="text-2xl font-bold text-slate-900 border-b pb-3 flex items-center gap-3">
+                        <span class="text-indigo-600 font-serif">IV.</span> Sanctuarisation du Référendum
+                    </h3>
+                    
+                    <ul class="space-y-3 text-xs text-slate-700 pl-2">
+                        <li class="flex items-start gap-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <i class="fa-solid fa-check text-emerald-600 mt-0.5"></i>
+                            <div><strong>Indépendance absolue :</strong> Le recours au Référendum (Initiative Exécutive) est libéré de toute condition de score ou de niveau de puissance.</div>
+                        </li>
+                        <li class="flex items-start gap-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <i class="fa-solid fa-check text-emerald-600 mt-0.5"></i>
+                            <div><strong>Outil de démocratie directe :</strong> Quel que soit son score d'élection ou sa majorité au Parlement, le Président conserve à tout moment le droit de consulter directement le peuple souverain pour trancher une crise politique ou valider un grand choix de société, sous le seul contrôle éthique du CSE.</div>
+                        </li>
+                        <li class="flex items-start gap-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <i class="fa-solid fa-check text-emerald-600 mt-0.5"></i>
+                            <div><strong>Référendum d’initiative Citoyenne (RIC) :</strong> Le RIC est inscrit dans la constitution comme un droit du peuple afin de faire entendre ses propositions.</div>
+                        </li>
+                    </ul>
+
+                    <!-- Image 4 -->
+                    <div class="my-6 text-center">
+                        <div class="inline-block relative group cursor-pointer overflow-hidden rounded-xl shadow-md border border-slate-300 bg-white transition-all hover:shadow-xl max-w-md mx-auto" onclick="openImageModal('https://zupimages.net/up/26/44/ppbx.jpg', 'Sanctuarisation du Référendum')">
+                            <img src="https://zupimages.net/up/26/44/ppbx.jpg" alt="Référendum et RIC" class="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-bold text-xs p-2">
+                                <i class="fa-solid fa-magnifying-glass-plus text-lg"></i>
+                                <span>Cliquer pour zoomer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- V. Les 3 Niveaux de Puissance Exécutive -->
+                <div class="bg-white rounded-3xl p-8 lg:p-10 shadow-xl border border-white space-y-6">
+                    <h3 class="text-2xl font-bold text-slate-900 border-b pb-3 flex items-center gap-3">
+                        <span class="text-indigo-600 font-serif">V.</span> Les 3 Niveaux de Puissance Exécutive
+                    </h3>
+                    <p class="text-sm text-slate-700 leading-relaxed">
+                        Les prérogatives de passage en force du Gouvernement (49-3, ordonnances, procédures accélérées) dépendent directement de sa légitimité au 3ᵉ tour (tenant compte du vote blanc) et de sa majorité à l'Assemblée.
+                    </p>
+
+                    <div class="grid grid-cols-1 gap-6 pt-2">
+                        <!-- Niveau 1 -->
+                        <div class="bg-amber-50/80 border border-amber-200 p-6 rounded-2xl space-y-3">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-bold text-amber-900 text-base flex items-center gap-2">
+                                    <span>🟡</span> Niveau 1 : Légitimité Faible / Coalition Obligatoire
+                                </h4>
+                            </div>
+                            <p class="text-xs text-slate-700"><strong>Conditions :</strong> Score au 3ᵉ tour inférieur à 42 % des voix pondérées OU absence de majorité absolue du bloc présidentiel à l'Assemblée (moins de 45 % des sièges).</p>
+                            <div class="text-xs text-slate-700 space-y-1 pt-1">
+                                <div>❌ <strong>Article 49-3</strong> strictly interdit.</div>
+                                <div>❌ Interdiction du recours aux ordonnances d'urgence.</div>
+                                <div>🤝 Compromis parlementaire obligatoire sur chaque texte.</div>
+                            </div>
+                        </div>
+
+                        <!-- Niveau 2 -->
+                        <div class="bg-sky-50/80 border border-sky-200 p-6 rounded-2xl space-y-3">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-bold text-sky-900 text-base flex items-center gap-2">
+                                    <span>🟢</span> Niveau 2 : Légitimité Solide / Gouvernance Standard
+                                </h4>
+                            </div>
+                            <p class="text-xs text-slate-700"><strong>Conditions :</strong> Score au 3ᵉ tour entre 42 % et 51 % des voix pondérées ET victoire dans 100 à 140 territoires ET bloc à l'Assemblée entre 45 % et 52% des sièges.</p>
+                            <div class="text-xs text-slate-700 space-y-1 pt-1">
+                                <div>⚖️ <strong>49-3 conditionné :</strong> Utilisable mais limité à 1 texte par an.</div>
+                                <div>⚖️ Ordonnances techniques autorisées sous réserve de ratification sous 3 mois.</div>
+                            </div>
+                        </div>
+
+                        <!-- Niveau 3 -->
+                        <div class="bg-emerald-50/80 border border-emerald-200 p-6 rounded-2xl space-y-3">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-bold text-emerald-900 text-base flex items-center gap-2">
+                                    <span>🔵</span> Niveau 3 : Légitimité Pleine / Super-Plein Pouvoir
+                                </h4>
+                            </div>
+                            <p class="text-xs text-slate-700"><strong>Conditions :</strong> Score au 3ᵉ tour supérieur à 51 % des voix pondérées ET victoire sur plus de 150 territoires ET super-majorité qualifiée à l'Assemblée (≥ 52 % des sièges).</p>
+                            <div class="text-xs text-slate-700 space-y-1 pt-1">
+                                <div>⚡ <strong>49-3 de Plébiscite :</strong> Usage libre sur les projets prioritaires du programme.</div>
+                                <div>⚡ Lois d'habilitation par ordonnances accélérées pour déployer les réformes d'urgence.</div>
+                                <div>⚡ Priorité à l’ordre du jour pour les propositions gouvernementales à l’assemblée.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 4. QUIZ DE COMPATIBILITE (60 QUESTIONS) ================= -->
+        <section id="content-quiz" class="tab-content py-16">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-8">
+                    <span class="px-3.5 py-1.5 bg-amber-100 text-amber-900 rounded-full text-xs font-bold uppercase tracking-wider">Test de Proximité Idéologique</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mt-3 mb-2">Quiz d'Affinité ASN (60 Questions)</h2>
+                    <p class="text-slate-800 text-xs font-semibold">Répondez aux 60 questions en sélectionnant votre avis. Le passage à la question suivante est automatique.</p>
+                </div>
+
+                <div id="quiz-container" class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-white">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center text-xs text-slate-600 font-bold mb-2">
+                            <span id="quiz-q-num">Question 1 / 60</span>
+                            <span id="quiz-q-percent" class="text-sky-600">2%</span>
+                        </div>
+                        <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                            <div id="quiz-bar" class="bg-sky-600 h-full transition-all duration-300" style="width: 2%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 pb-4 border-b border-slate-100">
+                        <div class="text-[10px] font-bold text-slate-600 uppercase mb-2">Accès rapide aux questions :</div>
+                        <div id="quiz-jump-grid" class="flex flex-wrap gap-1 max-h-24 overflow-y-auto p-1"></div>
+                    </div>
+
+                    <div>
+                        <span id="quiz-q-category" class="text-[11px] font-bold text-sky-700 bg-sky-50 px-2.5 py-1 rounded-md uppercase">Gouvernance</span>
+                        <h3 id="quiz-q-title" class="text-base sm:text-lg font-semibold text-slate-900 mt-3 mb-6 min-h-[50px]">
+                            Chargement...
+                        </h3>
+
+                        <div class="space-y-3">
+                            <button onclick="answerQuiz(2)" id="opt-btn-2" class="opt-btn w-full p-4 rounded-xl border border-slate-200 text-left font-medium text-slate-700 hover:border-sky-500 hover:bg-sky-50/50 transition-all flex items-center justify-between text-xs sm:text-sm">
+                                <span>Tout à fait d'accord</span>
+                                <i class="fa-regular fa-circle text-slate-300 check-icon"></i>
+                            </button>
+                            <button onclick="answerQuiz(1)" id="opt-btn-1" class="opt-btn w-full p-4 rounded-xl border border-slate-200 text-left font-medium text-slate-700 hover:border-sky-500 hover:bg-sky-50/50 transition-all flex items-center justify-between text-xs sm:text-sm">
+                                <span>Plutôt d'accord</span>
+                                <i class="fa-regular fa-circle text-slate-300 check-icon"></i>
+                            </button>
+                            <button onclick="answerQuiz(0)" id="opt-btn-0" class="opt-btn w-full p-4 rounded-xl border border-slate-200 text-left font-medium text-slate-700 hover:border-sky-500 hover:bg-sky-50/50 transition-all flex items-center justify-between text-xs sm:text-sm">
+                                <span>Ne sait pas / Neutre</span>
+                                <i class="fa-regular fa-circle text-slate-300 check-icon"></i>
+                            </button>
+                            <button onclick="answerQuiz(-1)" id="opt-btn--1" class="opt-btn w-full p-4 rounded-xl border border-slate-200 text-left font-medium text-slate-700 hover:border-sky-500 hover:bg-sky-50/50 transition-all flex items-center justify-between text-xs sm:text-sm">
+                                <span>Plutôt pas d'accord</span>
+                                <i class="fa-regular fa-circle text-slate-300 check-icon"></i>
+                            </button>
+                            <button onclick="answerQuiz(-2)" id="opt-btn--2" class="opt-btn w-full p-4 rounded-xl border border-slate-200 text-left font-medium text-slate-700 hover:border-sky-500 hover:bg-sky-50/50 transition-all flex items-center justify-between text-xs sm:text-sm">
+                                <span>Pas du tout d'accord</span>
+                                <i class="fa-regular fa-circle text-slate-300 check-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between mt-8 pt-6 border-t border-slate-100">
+                        <button id="quiz-prev-btn" onclick="prevQuiz()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-chevron-left"></i> Précédent
+                        </button>
+                        <span class="text-[11px] text-slate-500 italic">Cliquez sur une option pour passer directement à la suite</span>
+                    </div>
+                </div>
+
+                <div id="quiz-results" class="hidden bg-white rounded-3xl p-8 lg:p-10 shadow-xl border border-white text-center">
+                    <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-1">Votre Évaluation Complète</h3>
+                    <div class="text-6xl font-black text-sky-600 my-4" id="quiz-result-score">0%</div>
+                    <div id="quiz-result-text" class="bg-slate-50 p-6 rounded-2xl text-slate-700 text-sm leading-relaxed mb-8 border border-slate-100 text-left"></div>
+
+                    <!-- HISTOGRAMME DE REPARTITION DES RESULTATS DU QUIZ -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 mb-8 text-left">
+                        <h4 class="text-sm font-bold text-slate-900 mb-1 flex items-center gap-2">
+                            <i class="fa-solid fa-chart-column text-sky-600"></i> Répartition globale des résultats des participants
+                        </h4>
+                        <p class="text-[11px] text-slate-500 mb-6">Comparaison anonyme de votre score avec l'ensemble des tests enregistrés.</p>
+                        
+                        <div id="histogram-container" class="w-full flex items-end h-44 bg-white p-3 rounded-xl border border-slate-200 gap-0">
+                            <!-- Injected JS -->
+                        </div>
+                        <div class="grid grid-cols-10 text-[9px] font-bold text-slate-500 text-center mt-2 border-t border-slate-200 pt-1">
+                            <span>0-10%</span>
+                            <span>10-20%</span>
+                            <span>20-30%</span>
+                            <span>30-40%</span>
+                            <span>40-50%</span>
+                            <span>50-60%</span>
+                            <span>60-70%</span>
+                            <span>70-80%</span>
+                            <span>80-90%</span>
+                            <span>90-100%</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <button onclick="resetQuiz()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-5 py-3 rounded-xl text-xs transition-all">Recommencer</button>
+                        <button onclick="switchTab('contact')" class="bg-sky-600 hover:bg-sky-700 text-white font-bold px-6 py-3 rounded-xl text-xs shadow-md transition-all">Soutenir l'ASN</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 4.5 LE JEU DES TERROIRS ================= -->
+        <section id="content-jeu" class="tab-content py-16">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white rounded-3xl p-8 lg:p-10 shadow-xl border border-white">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-2">Le jeu des terroirs</h1>
+                    <p class="text-sm text-slate-600 mb-6">Sauras-tu trouver la région à laquelle appartient ce territoire ? Lis la description et clique sur la bonne écorégion parmi les choix proposés.</p>
+                    
+                    <div id="game-container">
+                        <div class="score-board score-board-anchor" id="score-display">Question 1 / 20 | Score : 0</div>
+                        <div class="game-card">
+                            <div class="question-text" id="q-title"></div>
+                            <p id="q-desc" class="text-sm text-slate-700"></p>
+                        </div>
+
+                        <h3 class="text-base font-bold text-slate-900 mt-6 mb-2">Référence visuelle de la carte :</h3>
+                        <div class="map-container">
+                            <img src="https://zupimages.net/up/26/35/10e4.png" alt="Carte des écorégions">
+                        </div>
+
+                        <h3 class="text-base font-bold text-slate-900 mt-6 mb-2">Choisis l'écorégion correspondante :</h3>
+                        <div class="ecoregions-grid" id="eco-options"></div>
+                        
+                        <div id="game-feedback"></div>
+                        <button id="next-btn" class="btn btn-next" onclick="nextQuestion()">Question suivante ➔</button>
+                    </div>
+
+                    <hr style="margin: 3rem 0; border: 0; border-top: 1px solid #cbd5e1;">
+
+                    <h2 class="text-2xl font-bold text-slate-900 mb-2">Et toi, tu vis dans quel territoire de l'ASN ?</h2>
+                    <p class="text-sm text-slate-600 mb-6">Jeu d'observation par superposition : repère ta ville sur la carte des villes en dessous, puis fais varier la jauge d'opacité pour ajuster l'affichage de la carte des territoires au-dessus. Utilisez les boutons de zoom si nécessaire !</p>
+                    
+                    <div class="layer-box">
+                        <div class="zoom-controls">
+                            <button class="zoom-btn" onclick="zoomMap(1.25)">🔍 Zoom +</button>
+                            <button class="zoom-btn" onclick="zoomMap(0.8)">🔍 Zoom -</button>
+                            <button class="zoom-btn" onclick="resetZoom()">⟲ Réinitialiser (1x)</button>
+                        </div>
+
+                        <!-- Conteneur avec ascenseurs corrigé pour un centrage haut-gauche et bas-droite parfait -->
+                        <div class="layer-wrapper" id="layer-wrapper">
+                            <div class="layer-container" id="layer-container">
+                                <!-- Calque inférieur : La carte des villes (eu32.jpg) -->
+                                <img id="layer-villes" src="https://zupimages.net/up/26/45/eu32.jpg" alt="Carte des villes">
+                                <!-- Calque supérieur : La carte des territoires (lrp9.png) réglée par défaut à 10% d'opacité -->
+                                <img id="layer-territoires" src="https://zupimages.net/up/26/35/lrp9.png" alt="Carte des territoires" style="opacity: 0.1;">
+                            </div>
+                        </div>
+
+                        <div class="slider-group">
+                            <label for="opacity-slider">Opacité de la carte des territoires (au-dessus) : <span id="slider-val">10</span>%</label>
+                            <input type="range" id="opacity-slider" min="0" max="100" value="10" oninput="updateOpacity(this.value)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 5. SOUTENIR GRATUITEMENT (CONTACT & COMMENTAIRES) ================= -->
+        <section id="content-contact" class="tab-content py-16">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+                
+                <!-- CARTE 1 : SOUTENIR GRATUITEMENT & COMPTEUR -->
+                <div class="bg-white rounded-3xl p-8 shadow-xl border border-white">
+                    <span class="px-3.5 py-1.5 bg-sky-100 text-sky-900 rounded-full text-xs font-bold uppercase tracking-wider">Engagement citoyen</span>
+                    <h2 class="text-2xl font-bold text-slate-900 mt-3 mb-2">Soutenir gratuitement l'ASN</h2>
+                    <p class="text-slate-600 text-xs mb-6">Aidez le mouvement à grandir sans aucune contrepartie financière.</p>
+                    
+                    <!-- Compteur de soutien -->
+                    <div class="bg-sky-50 border border-sky-100 rounded-2xl p-6 mb-8 text-center">
+                        <div class="text-3xl sm:text-4xl font-black text-sky-600 mb-2" id="support-counter">1000</div>
+                        <p class="text-xs font-bold text-slate-700 mb-4">personnes soutiennent l'ASN, merci à elles !</p>
+                        <div id="support-button-container">
+                            <button onclick="incrementSupport()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl text-xs shadow-md transition-all flex items-center justify-center gap-2 mx-auto">
+                                <i class="fa-solid fa-heart text-amber-300"></i>
+                                <span>Je soutiens !</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Inscription liste mail de soutien (indépendante) -->
+                    <div class="border-t border-slate-100 pt-6">
+                        <h3 class="text-sm font-bold text-slate-900 mb-2">Rejoindre la liste des soutiens par email</h3>
+                        <p class="text-xs text-slate-600 mb-4">Recevez les informations clés et les actualités du mouvement.</p>
+                        <form onsubmit="handleSupportSignup(event)" class="space-y-4">
+                            <!-- Piège à bots (Honeypot anti-spam) -->
+                            <input type="text" name="website_url" class="hp-field" tabindex="-1" autocomplete="off">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Nom complet</label>
+                                <input type="text" id="supporter-name" required placeholder="Votre nom" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-sky-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Adresse email</label>
+                                <input type="email" id="supporter-email" required placeholder="votre.email@domaine.fr" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-sky-500">
+                            </div>
+                            <button type="submit" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 rounded-xl text-xs shadow-md transition-all">S'inscrire sur la liste des soutiens</button>
+                        </form>
+                    </div>
+
+                    <!-- Bouton d'ouverture de la modale de contact -->
+                    <div class="mt-8 pt-6 border-t border-slate-100 text-center">
+                        <p class="text-xs text-slate-600 mb-3">Besoin d'entrer directement en contact avec l'équipe ?</p>
+                        <button onclick="openContactModal()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold px-6 py-3 rounded-xl text-xs shadow-md transition-all inline-flex items-center gap-2">
+                            <i class="fa-solid fa-envelope"></i>
+                            <span>Contacter l'équipe</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CARTE 2 : LAISSER UN COMMENTAIRE D'ENCOURAGEMENT -->
+                <div class="bg-white rounded-3xl p-8 shadow-xl border border-white">
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Laisser un commentaire d'encouragement</h3>
+                    <p class="text-slate-600 text-xs mb-6">Votre message sera visible après validation par l'administration du site.</p>
+                    
+                    <form onsubmit="handleCommentSubmit(event)" class="space-y-4">
+                        <input type="text" name="hp_comment" class="hp-field" tabindex="-1" autocomplete="off">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Votre Nom / Pseudo</label>
+                            <input type="text" id="comment-author" required placeholder="Ex: Citoyen Engagé" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-sky-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Votre Message d'encouragement</label>
+                            <textarea id="comment-text" required rows="3" placeholder="Écrivez votre message ici..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-sky-500"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 rounded-xl text-xs shadow-md transition-all">Soumettre le commentaire</button>
+                    </form>
+                </div>
+
+                <!-- LISTE DES COMMENTAIRES VALIDÉS PUBLICS -->
+                <div class="bg-white rounded-3xl p-8 shadow-xl border border-white">
+                    <h3 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-comments text-sky-600"></i>
+                        <span>Messages et encouragements de la communauté</span>
+                    </h3>
+                    <div id="public-comments-container" class="space-y-4">
+                        <!-- Injected JS -->
+                    </div>
+                </div>
+
+                <!-- SECTION ADMIN CACHÉE / MODÉRATION -->
+                <div id="admin-dashboard-card" class="hidden bg-slate-900 text-white rounded-3xl p-8 shadow-2xl border border-slate-700 space-y-6">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                        <h3 class="text-xl font-bold text-amber-300 flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved"></i> Tableau de Bord Administrateur
+                        </h3>
+                        <button onclick="logoutAdmin()" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold">Se déconnecter</button>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-sm text-sky-300 mb-3">Modération des commentaires en attente</h4>
+                        <div id="admin-comments-list" class="space-y-2 max-h-60 overflow-y-auto">
+                            <!-- Injected JS -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+    </div>
+
+    <!-- MODALE ÉDITEUR DE VIDÉO DU VOLET (ADMIN) -->
+    <div id="volet-video-editor-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden p-4">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative border border-white space-y-4">
+            <button onclick="closeVoletVideoEditor()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-700 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-xl font-bold text-slate-900">Éditer la Vidéo du Volet</h3>
+            <p class="text-xs text-slate-600">Entrez l'URL d'intégration Youtube (ex: <code>https://www.youtube.com/embed/...</code>). Laissez vide pour retirer la vidéo.</p>
+            
+            <input type="hidden" id="edit-volet-video-id">
+
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">URL Youtube (embed)</label>
+                <input type="text" id="edit-volet-video-url" placeholder="https://www.youtube.com/embed/XXXXXX" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-sky-500 font-mono">
+            </div>
+
+            <div class="flex justify-end gap-3 pt-2">
+                <button onclick="closeVoletVideoEditor()" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all">Annuler</button>
+                <button onclick="saveVoletVideoChanges()" class="px-6 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold shadow-md transition-all">Enregistrer la vidéo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALE ÉDITEUR D'ARTICLE (ADMIN) -->
+    <div id="article-editor-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden p-4">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-2xl w-full shadow-2xl relative border border-white space-y-4 max-h-[90vh] overflow-y-auto">
+            <button onclick="closeArticleEditor()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-700 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-xl font-bold text-slate-900">Éditeur d'Article (Mode Admin)</h3>
+            
+            <div class="bg-sky-50 border border-sky-100 p-3 rounded-xl text-[11px] text-slate-700 space-y-1">
+                <p class="font-bold text-sky-900"><i class="fa-solid fa-circle-info"></i> Guide de mise en page HTML :</p>
+                <p>• Paragraphes : <code>&lt;p&gt;Votre texte&lt;/p&gt;</code></p>
+                <p>• Texte en gras : <code>&lt;strong&gt;Gras&lt;/strong&gt;</code> ou italique : <code>&lt;em&gt;Italique&lt;/em&gt;</code></p>
+                <p>• Listes à puces : <code>&lt;li&gt;&bull; Élément&lt;/li&gt;</code></p>
+            </div>
+            
+            <input type="hidden" id="edit-volet-id">
+            <input type="hidden" id="edit-article-id">
+
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Titre de l'article</label>
+                <input type="text" id="edit-article-title" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-sky-500 font-bold">
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Image 1 : Haut d'article (URL direct)</label>
+                <input type="text" id="edit-article-image" placeholder="https://zupimages.net/up/..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-sky-500 font-mono">
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Contenu texte de l'article</label>
+                <textarea id="edit-article-content" rows="6" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-sky-500 font-mono"></textarea>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Image 2 : Bas d'article (URL direct - optionnelle)</label>
+                <input type="text" id="edit-article-image2" placeholder="https://zupimages.net/up/..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-sky-500 font-mono">
+            </div>
+
+            <div class="flex justify-end gap-3 pt-2">
+                <button onclick="closeArticleEditor()" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all">Annuler</button>
+                <button onclick="saveArticleChanges()" class="px-6 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold shadow-md transition-all">Enregistrer les modifications</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALE LIGHTBOX AVEC SYSTÈME DE ZOOM ET DRAG-AND-DROP -->
+    <div id="image-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md hidden p-2 sm:p-4" onclick="closeImageModal()">
+        <div class="relative max-w-7xl w-full h-[95vh] flex flex-col items-center justify-between" onclick="event.stopPropagation()">
+            <!-- Barre d'outils supérieure -->
+            <div class="w-full flex items-center justify-between bg-slate-900/80 px-4 py-3 rounded-2xl border border-slate-700 shadow-xl z-10">
+                <h4 id="image-modal-title" class="text-white font-bold text-sm sm:text-base truncate mr-4"></h4>
+                <div class="flex items-center gap-2">
+                    <button onclick="zoomIn()" class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 shadow transition-all" title="Zoomer">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> <span class="hidden sm:inline">Zoom +</span>
+                    </button>
+                    <button onclick="zoomOut()" class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 shadow transition-all" title="Dézoomer">
+                        <i class="fa-solid fa-magnifying-glass-minus"></i> <span class="hidden sm:inline">Zoom -</span>
+                    </button>
+                    <button onclick="resetZoom()" class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow transition-all" title="Réinitialiser">
+                        Réinitialiser
+                    </button>
+                    <button onclick="closeImageModal()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition-all ml-2 flex items-center gap-1">
+                        <i class="fa-solid fa-xmark text-sm"></i> <span>Fermer</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Conteneur d'affichage de l'image -->
+            <div id="modal-viewport" class="w-full flex-grow overflow-hidden my-3 rounded-2xl bg-slate-950/90 border border-slate-800 relative flex items-center justify-center cursor-grab active:cursor-grabbing select-none touch-none">
+                <img id="image-modal-src" src="" alt="Agrandissement Carte ASN" class="absolute max-h-[85vh] w-auto object-contain origin-center pointer-events-none" style="transform: translate(0px, 0px) scale(1);">
+            </div>
+            
+            <div class="text-slate-400 text-[11px] text-center">
+                Astuce : Cliquez et glissez (souris ou doigt) pour déplacer l'image, ou utilisez les boutons de zoom.
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALE DE CONTACT SÉCURISÉE -->
+    <div id="contact-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm hidden p-4">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative border border-white">
+            <button onclick="closeContactModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-700 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-2xl font-bold text-slate-900 mb-2">Contacter l'équipe de l'ASN</h3>
+            <p class="text-xs text-slate-600 mb-6">Envoyez votre message en toute sécurité.</p>
+            
+            <form action="https://formspree.io/f/xblypjjy" method="POST" class="space-y-4">
+                <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Votre Nom / Prénom</label>
+                    <input type="text" name="nom" required placeholder="Votre nom" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-sky-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Votre Adresse Email (pour la réponse)</label>
+                    <input type="email" name="email" required placeholder="votre.email@domaine.fr" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-sky-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Votre Message</label>
+                    <textarea name="message" required rows="4" placeholder="Votre message..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-sky-500"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 rounded-xl text-xs shadow-md transition-all">Envoyer le message</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-white py-12 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-3">
+                <img src="https://zupimages.net/up/26/44/oz9u.png" alt="ASN Logo" class="h-10 w-auto bg-white/10 p-1 rounded-lg">
+                <span class="text-sm font-bold">Alliance Sociale Noocratique (ASN)</span>
+            </div>
+            <p class="text-xs text-slate-400">© 2026 ASN. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPT JS COMPLET ET STRUCTURE DE DONNEES -->
+    <script>
+        // DONNEES COMPLETES DES 10 VOLETS DU PROGRAMME
+        let defaultProgramVolets = [
+            {
+                id: "agriculture",
+                num: "01",
+                title: "Agriculture et Alimentation",
+                image: "https://zupimages.net/up/26/44/pa0x.png",
+                videoUrl: "https://www.youtube.com/embed/THAOrBFWMco",
+                articles: [
+                    {
+                        id: "agrivoltaisme",
+                        title: "Agrivoltaïsme favorisé",
+                        image: "https://zupimages.net/up/26/44/dy91.png",
+                        content: "• Agrivoltaïsme favorisé : Aide pour l’installation de panneaux solaires par-dessus les champs. Et oui, les études ont montré que cela permet en plus de rendre plus efficace de quelques pourcent les cultures situées dessous et régulant l’exposition solaire et protégeant des intempéries ou du gel, ou bien encore apporter de l’ombrage pour les pâturages. C’est donc une technique particulièrement utile pour les cultures de Midi-méditerranée ou de Garonnie, où l’ensoleillement et les difficultés climatiques sont fortes. La revente de l’électricité fournira un revenu supplémentaire à l’agriculteur tout en permettant de couvrir ses besoins en électricité. Et pour qui se demande, ça n’empêche pas les tracteurs de passer, les panneaux sont posés très en hauteur ou en barrière verticale. Bien sur ce ne se sera pas 100% des champs qui seront couvert, soyons réaliste, il s’agit de développer la filière pas de recouvrir des régions entières."
+                    },
+                    { id: "bien_etre_animal", title: "Bien être animal", content: "Mise aux normes stricte des élevages, arrêt des fermes usines et garantie du parcours plein air pour les animaux d'élevage." },
+                    { id: "oeufs_cannes", title: "Œufs de Cannes", content: "Soutien aux filières locales alternatives et diversification des productions avicoles écorégionales." },
+                    { id: "bioraffineries", title: "Bio-Raffineries Protéiques", content: "Développement d'unités d'extraction protéique végétale locales pour l'autonomie en alimentation humaine et animale." },
+                    { id: "pac_noocratique", title: "PAC noocratique", content: "Réorientation des aides agricoles à l'actif et à l'impact écosystémique au lieu de la simple surface en hectares." },
+                    { id: "interdiction_pesticides", title: "Interdiction des pesticides à risque", content: "Substitution progressive guidée par la recherche agronomique vers les solutions de biocontrôle." },
+                    { id: "retenues_eau", title: "Retenues d'eau naturelles", content: "Création de réserves écologiques collinaires préservant les nappes phréatiques." },
+                    { id: "agroforesterie", title: "Agriculture bio éco-responsable et agroforesterie", content: "Intégration systématique des haies et arbres dans les parcelles agricoles." },
+                    { id: "recherche_agronomie", title: "Recherche en agronomie", content: "Investissement dans la sélection variétale résiliente au réchauffement climatique." },
+                    { id: "techniques_simplifiees", title: "Techniques culturales simplifiées", content: "Réduction du travail du sol pour préserver la vie bactérienne et fongique des sols." },
+                    { id: "chasse_raisonnee", title: "Chasse et régulation raisonnée", content: "Régulation scientifique des espèces invasives en coordination avec les gardes écorégionaux." },
+                    { id: "fermes_hydroponiques", title: "Fermes hydroponiques verticales", content: "Développement en périphérie urbaine pour une production maraîchère à ultra-court circuit." },
+                    { id: "baisse_flux", title: "Baisse des flux entrant/sortant", content: "Souveraineté alimentaire régionale réduisant la dépendance aux engrais d'importation." },
+                    { id: "ecoemballages", title: "Écoemballages", content: "Généralisation de la consigne et suppression des plastiques à usage unique dans l'alimentaire." },
+                    { id: "anti_ultratransforme", title: "Diminution des aliments ultra-transformés", content: "Régulation des additifs et soutien à l'alimentation brute de qualité." },
+                    { id: "lutte_gaspillage", title: "Lutte anti-gaspillage", content: "Obligation de valorisation intégrale des invendus agricoles et de distribution." }
+                ]
+            },
+            {
+                id: "territoires",
+                num: "02",
+                title: "Nouveau découpage territorial",
+                image: "https://zupimages.net/up/26/44/5ryg.png",
+                videoUrl: "https://www.youtube.com/embed/UGfBdabkF5s",
+                articles: [
+                    {
+                        id: "architecture_intro",
+                        title: "L'architecture des 13 Écorégions et de nos 250 Territoires",
+                        image: "https://zupimages.net/up/26/35/10e4.png",
+                        image2: "https://zupimages.net/up/26/35/lrp9.png",
+                        content: `Pour bâtir une démocratie de proximité et une écologie efficace, il faut d'abord redonner corps à la géographie réelle de la France. La 6ème République ASN tourne définitivement la page des découpages administratifs absurdes et artificiels (comme l'aberrante super-région Auvergne-Rhône-Alpes) pour réconcilier l'institution avec le terrain, les bassins de vie et les écosystèmes.
+
+<strong>I. Les 13 Écorégions : La logique du vivant et des bassins versants</strong>
+Oublions les fusions de bureaux taillées à la hache. Le nouveau découpage des 13 écorégions de métropole repose sur une science exacte et naturelle : les bassins versants des fleuves.
+Certains mouvements politiques avaient esquissé cette idée, mais en accouchant de mastodontes ingérables (comme la titanesque région Rhône-Méditerranée-Corse, qui mélange des mondes et des climats radicalement opposés). Notre approche corrige ces erreurs pour que chaque écorégion forme un ensemble cohérent, propice à une vraie politique de l'eau, à une gestion agricole proche de la nature, à la protection de nos littoraux contre la sur-bétonisation et à une relance économique ciblée.
+
+<strong>II. Du département aux 234 Territoires (auxquels s'ajoutent les 16 d'Outre-mer)</strong>
+Mais comment respecter le terroir au sein de ces vastes ensembles ? En dépassant l'ère des départements issus de la Révolution pour se recentrer sur les régions naturelles historiques.
+De la Beauce à la Sologne, du Périgord au Pays de Caux, du Vercors au Médoc ou au Briançonnais, ces centaines de paysages et de terroirs portent l'histoire et l'identité locale. Les départements actuels les ont hachés, coupant les bassins de vie en morceaux.
+L'ASN redessine la carte en 234 Territoires en métropole (auxquels s'ajoutent 16 Territoires d'Outre-mer, pour un total exact de 250).
+- Comment ont-ils été constitués ? En suivant fidèlement les vallées et les crêtes des bassins versants.
+- Comment assurer leur viabilité ? Certaines petites régions naturelles sauvages ne pouvant survivre seules, elles ont été regroupées intelligemment avec des zones complémentaires autour d'un pôle urbain de proximité. Ce pôle garantit l'accès aux services publics essentiels, à la santé, aux collèges et aux lycées.
+- Une nomenclature de bon sens : Les noms de ces territoires fusionnés reflètent leur histoire (comme le Castrais-Lacaune, le Beauvaisis-Clermontois, la Charente limousine ou la Vallée du Rhin).
+
+<strong>III. Une gouvernance gigogne : Du local au global</strong>
+- Les 250 Territoires constituent le premier échelon de vie, de gestion quotidienne et d'aménagement local.
+- Les 13 Écorégions jouent le rôle de grandes structures d'accompagnement et de péréquation, capables de soutenir les territoires dans leurs grands projets d'infrastructure et de financement.
+En somme, ce projet d'écorégions et de territoires vise à redonner de l'attractivité à nos campagnes, à protéger nos terroirs et à replacer l'habitant au centre de la décision locale.`
+                    },
+                    {
+                        id: "paris",
+                        title: "L'Île-de-France (Paris)",
+                        image: "https://zupimages.net/up/26/44/2of1.png",
+                        content: "Volontairement resserrée sur son hyper-centre urbain, elle devient une entité métropolitaine autonome, une véritable \"Cité-État\" économique. Sa réalité est celle d'une densité démographique unique, d'un réseau de transports en commun géant et d'une dépendance totale envers les régions voisines pour son alimentation et son énergie. En l'isolant, nous lui permettons de gérer ses problématiques propres : l'étalement urbain, les îlots de chaleur en été, la désimperméabilisation des sols urbains pour limiter les risques d’inondation et la transition écologique de la mégapole. Elle cesse enfin de vampiriser les budgets et les priorités des territoires ruraux du bassin de la Seine. La région dispose de 4 territoires : Paris intra-muros, à l’ouest le Grand Pincerai qui cours de la Seine aval à la Seine Amont, de Nanterre à Orly, aéroport compris. Au nord le Parisis, démarrant à cergy-pontoise jusqu’à la Marne, et comprenant l’aéroport Roissy-Charles de Gaulle. Enfin à l’est la Brie Francilienne comprend la zone urbanisée de la Brie entre Marne et Seine, et comprenant Melun, Marne La Vallée Chessy et le parc Disneyland Paris, pôle économique capital indispensable à conserver dans la région parisienne, ce serai hérésie de sortir Disneyland Paris de la région parisienne nan ?"
+                    },
+                    {
+                        id: "val_seine",
+                        title: "Le Val de Seine",
+                        image: "https://zupimages.net/up/26/44/ih90.png",
+                        content: "Le Val de Seine forme un immense bassin hydrographique et nourricier, fort de 22 territoires, structuré par la Seine et ses grands affluents comme la Marne et l’Yonne. Région à la capacité de production agricole unique au monde capable de garantir la sécurité alimentaire de millions de citoyens, des décennies de monoculture intensive ont lessivé et épuisé ces sols précieux. La transition agroécologique doit imposer la polyculture-élevage, restaurer les réseaux de haies protectrices et préserver les nappes phréatiques, en particulier la gigantesque nappe des calcaires de Beauce. Il faut également planifier la recréation de vastes zones naturelles d’expansion des crues en amont, notamment dans le Vallage et le long de l'Yonne, afin de réguler les débits face aux futures menaces d'inondations et de sécheresses."
+                    },
+                    {
+                        id: "nord_manche",
+                        title: "Nord-Manche",
+                        image: "https://zupimages.net/up/26/44/6ngg.png",
+                        content: "L’écorégion Nord-Manche et ses 10 territoires forme une façade linéaire de plaines et de falaises contrôlant le détroit le plus fréquenté au monde. Elle est irriguée par plusieurs fleuves côtiers comme la Somme, et divers cours d’eau rejoignant la Belgique. Côté industriel, le lourd passé polluant de la « Steel Valley » mute aujourd'hui vers une « Battery Valley » décarbonée, portée par l'hydrogène vert, des gigafactories de batteries et une culture ouvrière à la résilience technique exceptionnelle. Véritable pilier nourricier, la région s'appuie sur les plaines fertiles du Santerre et de Picardie pour assurer la sécurité céréalière et maraîchère du pays qui doit également passer sa transition agroécologique, tandis que Boulogne-sur-Mer domine l’économie bleue comme premier port de pêche européen. En tant que carrefour frontalier stratégique avec le Royaume-Uni et la Belgique, le territoire gère les flux douaniers et la crise migratoire à Calais via une politique humaine mais ferme, solidement adossée à la coopération internationale. Cette dimension transfrontalière impose aussi une gouvernance écologique commune des bassins versants partagés comme l'Escaut, la Lys et l'Aa afin de réguler efficacement les futurs risques de crues et de graves sécheresses estivales."
+                    },
+                    {
+                        id: "bretagne_normandie",
+                        title: "Bretagne-Normandie",
+                        image: "https://zupimages.net/up/26/44/6djg.png",
+                        content: "La Bretagne-Normandie est caractérisée par ses nombreux fleuves côtiers tels l’Orne et la Vilaine et regroupe 18 territoires. Vaste façade maritime française, elle s'impose comme le premier pôle halieutique national en pêche, conchyliculture et algoculture grâce à des ports d'élite comme Lorient ou Granville, tout en abritant le cœur de la défense navale et de la construction de pointe à Brest et Cherbourg. Face au péril écologique des nitrates et des algues vertes causé par l'élevage industriel intensif, les fermes-usines seront progressivement démantelées et remplacées par des élevages plus éco-responsable et respectueux des bêtes, et l'agroécologie assainira les bassins versants de la Vilaine, du Blavet et de l'Orne."
+                    },
+                    {
+                        id: "pays_loire",
+                        title: "Pays de Loire",
+                        image: "https://zupimages.net/up/26/44/im7q.png",
+                        content: "Les Pays de Loire forme le cœur vert, forestier et touristique du pays, unifiant la Loire, La Sarthe, le Cher, la Vienne et l'Allier depuis leurs sources jusqu'à l'estuaire atlantique pour former le dernier grand système fluvial sauvage d’Europe occidentale, réunissant 36 territoires. C’est la plus grande écorégion de France. Cette gestion hydrologique totalement unifiée protège efficacement les zones humides, restaure les frayères à saumons et prévient globalement les risques de crues. Sa mosaïque agricole unique associe l'élevage du Charolais et du Bocage Mayennais, le pastoralisme de la Haute-Marche, les céréales de la plaine du Cher, le maraîchage alluvial et les grands vignobles ligériens. De plus, les massifs forestiers de Sologne, du Perche et d'Auvergne constituent d'immenses puits de carbone et des zones refuges indispensables pour la faune européenne. Pour corriger les fractures économiques flagrantes entre le dynamisme de Nantes ou de l'axe Orléans-Tours et le dépeuplement de l'arrière-pays, l'Alliance Sociale Noocratique impose une péréquation budgétaire stricte finançant les services publics et les hôpitaux de proximité, un système donc qui sera pratiqué dans la plupart des régions pour redynamiser les campagnes. En Grande Sologne, une politique ferme de dégriage obligatoire supprime les clôtures de chasse privées afin de libérer les corridors migratoires des grands mammifères et l'accès des citoyens à la nature."
+                    },
+                    {
+                        id: "rhin_meuse",
+                        title: "Rhin-Meuse",
+                        image: "https://zupimages.net/up/26/44/rrgw.png",
+                        content: "Le Rhin-Meuse forme une grande écorégion continentale et frontalière de 13 territoires ouverte sur l'Europe, unifiée par les massifs des Vosges et des Ardennes ainsi que par les bassins de la Moselle, de la Meuse et du Rhin, forte de traditions industrielles, forestières et brassicoles. Héritière d'un passé minier, sidérurgique et manufacturier résilient, sa forte culture ouvrière se tourne désormais vers les éco-matériaux, l'automobile décarbonée et la chimie verte. Partagés avec quatre nations voisines, ses cours d'eau imposent une gouvernance écologique transfrontalière stricte pour lutter contre les pollutions diffuses et gérer solidairement les sécheresses. Face au stress climatique continental et aux ravages des scolytes sur les monocultures d'épicéas, l'enjeu est d'imposer une sylviculture diversifiée et proche de la nature. Enfin, l'écorégion s'attache à reconstruire la « Trame Verte » continentale afin de restaurer les corridors écologiques fragmentés par les grands axes de transport, garantissant à nouveau la libre circulation des grands mammifères sauvages entre la forêt de Haguenau et les massifs voisins."
+                    },
+                    {
+                        id: "dordogne_atlantique",
+                        title: "Dordogne-Atlantique",
+                        image: "https://zupimages.net/up/26/44/mfqa.png",
+                        content: "L’écorégion Dordogne-Atlantique et ses 20 territoires s'étend de la Loire au nord de la Gironde, unifiant la Charente, la Sèvre Niortaise et le grand bassin de la Dordogne jusqu’au Massif central. Ce vaste ensemble intègre des zones uniques comme le Marais poitevin, la baie de l'Aiguillon, les îles côtières et les riches vallées forestières du Périgord. C’est le premier pôle conchylicole d'Europe. En Saintonge et en Angoumois, la puissance agro-industrielle hautement rentable du vignoble de Cognac génère d'immenses richesses financières pour le territoire. Cette manne est mobilisée par la noocratie pour propulser la transition écologique et la sylviculture durable de tout l'arrière-pays enclavé. Une redistribution stricte des taxes du tourisme et du Cognac est mise en place pour financer équitablement les services publics indispensables du pays profond. Ces budgets sécurisent le maintien des hôpitaux de proximité, des écoles et des voies ferrées locales en Haute-Charente, en Corrèze et jusqu'au Cantal."
+                    },
+                    {
+                        id: "garonnie",
+                        title: "Garonnie",
+                        image: "https://zupimages.net/up/26/44/u8o7.png",
+                        content: "Avec ses 24 territoires, la Garonnie unifie le grand bassin du Sud-Ouest pyrénéen et gascon, où les eaux de la Garonne, du Lot, de l’Aveyron, de l’Ariège et du Tarn convergent vers l'estuaire de la Gironde. Sous son influence océanique chaude, c'est une terre d'excellence agricole, de polyculture, de grands vignobles et un pôle technologique mondial de premier plan. Autour de la métropole toulousaine, premier hub européen de l'aéronautique et du spatial, la noocratie conçoit les futurs transports décarbonés de la nation. La disparition inéluctable des glaciers et le manque chronique de neige condamnent le modèle économique obsolète du tout-ski. Dans les vallées pyrénéennes, et ce sera la même chose dans les alpes, l'écorégion planifie la reconversion immédiate de ses stations d'altitude vers un tourisme de biodiversité durable. Ce modèle se déploie sur les quatre saisons tout en protégeant activement le pastoralisme traditionnel et la gestion des estives."
+                    },
+                    {
+                        id: "adour_landes",
+                        title: "Adour-Landes",
+                        image: "https://zupimages.net/up/26/44/iph7.png",
+                        content: "L’écorégion Adour-Landes et ses 9 territoires, unie par le bassin de l'Adour drainant les Pyrénées et le plus grand massif forestier d’Europe, possède une forte identité océanique. Ce poumon sylvicole constitue une ressource industrielle majeure (bois, chimie verte) pour piéger le carbone, tandis que le Nord abrite la prestigieuse viticulture mondiale du Médoc. Face aux crises climatiques, le défi noocratique est de briser la monoculture intensive du pin maritime par la réintroduction de feuillus locaux agissant comme pare-feu naturels."
+                    },
+                    {
+                        id: "haute_alpine",
+                        title: "Haute-Alpine",
+                        image: "https://zupimages.net/up/26/44/4c6m.png",
+                        content: "L’écorégion Haute-Alpine et ses 17 territoires forme un vertical château d'eau jalonné de glaciers et de grands lacs comme le Léman. Ses reliefs abrupts abritent la première batterie hydroélectrique nationale via des barrages stratégiques tels Roselend et Serre-Ponçon. Ce tissu montagnard soutient une économie sylvo-pastorale d'excellence réputée pour ses fromages et ses vignobles de Savoie ou du Diois. Ses parcs préservés, de la Vanoise au Vercors et au Verdon, constituent de vastes sanctuaires protégeant lynx, loups et bouquetins. Cependant, le réchauffement accéléré frappe les massifs et provoque l’effondrement inéluctable du modèle économique du tout-ski. L'urgence impose une reconversion rapide vers un tourisme durable quatre saisons, proscrivant l'aberration de la neige artificielle. La baisse du stock neigeux réduit les débits estivaux, exigeant un partage solidaire avec la Vallée Rhodanienne et la Durance. Une proximité avec le Valais Suisse sera également indispensable car il y coule la haute vallée du Rhône. Dans les vallées de la Maurienne et de la Tarentaise, le trafic routier transalpin engendre une pollution de l'air alarmante. L'alternative noocratique y planifie le développement massif du fret ferroviaire et de transports locaux propres pour rompre l'enclavement, avec l’achèvement notamment du nouveau tunnel ferroviaire haute capacité dans le secteur du tunnel du Fréjus pour relier France et Italie par un nouvel axe solide. Enfin, la spéculation immobilière aggrave la fracture territoriale entre le sillon alpin connecté et les zones montagnardes isolées. Les prix prohibitifs pratiqués à Chamonix ou Courchevel chassent les résidents permanents et menacent le maintien des services publics. En réponse, la justice territoriale de l’ASN encadre sévèrement le logement et restreint les résidences secondaires. Ces mesures pérennes permettent aux populations locales de se loger dignement et font revivre l'économie des territoires d'altitude. Des mesures qui seront prises dans toutes zones françaises fortement touchée par le tourisme."
+                    },
+                    {
+                        id: "vallee_rhodanienne",
+                        title: "Vallée Rhodanienne",
+                        image: "https://zupimages.net/up/26/44/ydn5.png",
+                        content: "Les 22 territoires de la Vallée Rhodanienne constitue l'artère vitale du transport européen Nord-Sud. Ce corridor stratégique offre un réseau multimodal idéal pour le déploiement noocratique d’un vaste plan de ferroutage et de fret fluvial décarboné. Cœur énergétique de la nation, la vallée concentre une production d'électricité unique combinant les grands barrages au fil de l’eau de la CNR et la forte densité des complexes nucléaires. Territoire d'excellence gastronomique, l'écorégion associe l'élevage de la Bresse aux premières plaines fruitières de France en Drôme et en Ardèche. Ses coteaux abritent de prestigieux terroirs viticoles mondiaux, s'étendant du Beaujolais et des Côtes du Rhône jusqu’à la Bourgogne. Sa résilience économique repose sur un tissu ouvrier et d’ingénieurs qualifiés, de la mécanique franc-comtoise aux biotechnologies lyonnaises. Ce pôle technologique intègre également les laboratoires de renommée internationale de technologie de pointe basés dans la métropole de Grenoble."
+                    },
+                    {
+                        id: "midi_mediterranee",
+                        title: "Midi-Méditerranée",
+                        image: "https://zupimages.net/up/26/44/xu5l.png",
+                        content: "L’écorégion Midi-Méditerranée et ses 29 territoires s'étend du golfe du Lion à l’Italie, marqué par son climat chaud méditerranéen et son attrait touristique. Elle est irriguée par le réseau de nombreux fleuves côtiers comme le Var ou l’Aude, et la fin du bassin du Rhône et de la Durance. Portée par le pôle de Marseille-Fos et la base de Toulon, elle domine l’économie bleue via les technologies marines et le fret international. Profitant d’un ensoleillement record, la noocratie y déploie massivement le solaire urbain, industriel et l’agrivoltaïsme pour une autonomie énergétique colossale. Pour pallier les sécheresses critiques, elle impose également le recyclage intégral des eaux usées afin de recharger les nappes phréatiques. La gestion des risques planifie des mosaïques paysagères coupe-feu et le débroussaillement contre les méga-feux estivaux en Provence. Interdiction de toute construction en zone inondable pour protéger les populations des crues éclairs et des épisodes cévenols en automne. Comme déjà dit pour d’autres régions, pour stopper la spéculation immobilière de Perpignan à Nice, l'ASN gèle l'étalement urbain qui bétonne le trait de côte littoral. Les résidences secondaires et de location saisonnière y sont fortement surtaxées pour réinvestir les budgets et redynamiser les territoires intérieurs enclavés. Face aux rejets plastiques et à la pollution de Fos, des normes draconiennes sont imposées dans cette mer fermée très vulnérable. Les navires au fioul lourd sont ainsi bannis des ports, avec obligation de branchement électrique à quai pour les paquebots. Enfin, l’écorégion multiplie les réserves marines intégrales pour laisser les écosystèmes et les stocks de poissons se régénérer durablement, idée qui peut être mise en place dans d’autres régions côtières notamment en Nord-manche ou Bretagne-Normandie."
+                    },
+                    {
+                        id: "corse",
+                        title: "Corse",
+                        image: "https://zupimages.net/up/26/44/08zo.png",
+                        content: "La Corse découpée en 10 territoires forme une entité hydrographique close et indivisible, jalonnée de fleuves côtiers torrentiels tributaires des précipitations sur ses hauts sommets de granite. Son économie repose sur une agriculture sylvo-pastorale identitaire valorisant la châtaigne, les agrumes de la plaine, les cépages endémiques et un pastoralisme traditionnel. Près de la moitié du territoire et des réserves marines d'exception comme Scandola sont sanctuarisés au profit d'un écotourisme axé sur la préservation scientifique. Pour clore sa dépendance thermique polluante liée aux usines de Vazzio et Lucciana, la noocratie remplace le fioul par des énergies renouvelables et des nouvelles technologies. Brisant le modèle centralisateur jacobin, la doctrine noocratique dote l'île d'un statut inédit de semi-autonomie fonctionnelle adapté à ses contraintes physiques reelles. L'Assemblée écorégionale dispose ainsi d'un pouvoir normatif propre pour modifier et adapter les lois nationales en urbanisme, transports et gestion de l'environnement. L'écorégion exerce une souveraineté fiscale spécifique en taxant fortement les flux non essentiels, notamment les navires de croisière et l'usage des jets privés. Un impôt ciblé frappe le patrimoine immobilier non résidentiel, tandis que les coopératives locales engagées dans la transition écologique bénéficient d'une exonération totale. La Corse obtient également le droit de mener une diplomatie environnementale directe avec ses voisins méditerranéens comme la Sardaigne, la Toscane, la Ligurie ou les îles Baléares."
+                    }
+                ]
+            },
+            {
+                id: "energie_ecologie",
+                num: "03",
+                title: "Énergie et écologie",
+                image: "https://zupimages.net/up/26/44/5ex8.png",
+                videoUrl: "https://www.youtube.com/embed/ccLzahSikyc",
+                articles: [
+                    { id: "pollution_plastique", title: "Nettoyage de la pollution plastique", content: "Plan national de dépollution des cours d'eau et interdiction des microplastiques." },
+                    { id: "nucleaire_4gen", title: "Nucléaire de 4ème génération", content: "Déploiement des réacteurs à neutrons rapides fermant le cycle du combustible." },
+                    { id: "autonomie_insulaire", title: "Autonomie insulaire", content: "Kits hybrides solaire-stockage pour les territoires d'outre-mer." },
+                    { id: "vegetalisation", title: "Végétalisation des villes", content: "Lutte contre les îlots de chaleur urbains par des forêts urbaines." },
+                    { id: "stockage_geologique", title: "Stockage géologique de l'énergie", content: "Utilisation des cavités salines pour l'air comprimé et l'hydrogène." },
+                    { id: "capture_co2", title: "Capture du CO2 industriel", content: "Séquestration directe sur les hauts fourneaux et cimenteries." },
+                    { id: "hydrogene_vert", title: "Développement de l'hydrogène vert", content: "Électrolyseurs couplés au réseau électrique bas-carbone." },
+                    { id: "dessalement", title: "Dessalement de l'eau de mer", content: "Stations bas-carbone alimentant les zones en stress hydrique fort." },
+                    { id: "efuel_vert", title: "Hub de production de e-fuel vert", content: "Carburants de synthèse pour l'aviation et le maritime." },
+                    { id: "bouclier_carburants", title: "Bouclier des carburants à la pompe", content: "Plafonnement des marges raffinage en période de crise." },
+                    { id: "fret_fluvial", title: "Renfort fret fluvial et ferroviaire", content: "Report modal obligatoire pour les transports de marchandises lourdes." },
+                    { id: "photovoltaique_perovskite", title: "Photovoltaïque tandem-pérovskite", content: "Soutien à l'industrialisation européenne des cellules haute performance." },
+                    { id: "recyclage_terres_rares", title: "Recyclage des terres rares", content: "Filière nationale de récupération des aimants permanents." },
+                    { id: "loi_panneaux_parking", title: "Renfort de la loi sur les panneaux solaires", content: "Obligation sur 100% des parkings et toits plats industriels." },
+                    { id: "zones_humides", title: "Protection des zones humides", content: "Sanctuarisation intégrale des têtes de bassins versants." },
+                    { id: "lutte_antiincendie", title: "Lutte anti-incendie renforcée", content: "Flotte d'avions bombardiers d'eau écorégionale augmentée." },
+                    { id: "chauffages_polluants", title: "Remplacement progressif des chauffages polluants", content: "Plan pompe à chaleur et réseaux de chaleur urbains." },
+                    { id: "quais_electrifies", title: "Quai électrifié pour les grands navires", content: "Interdiction des moteurs à quai dans tous les ports français." },
+                    { id: "fusion_nucleaire", title: "Fusion nucléaire", content: "Co-financement prioritaire des réacteurs de recherche." },
+                    { id: "gestion_forets", title: "Gestion durable des forêts et biodiversité", content: "Diversification des essences pour résister aux parasites." }
+                ]
+            },
+            {
+                id: "sciences_sante",
+                num: "04",
+                title: "Sciences et santé",
+                image: "https://zupimages.net/up/26/44/u9we.png",
+                videoUrl: "https://www.youtube.com/embed/kEiTHecTEos",
+                articles: [
+                    { id: "budget_sante", title: "Budget santé", content: "Revalorisation du personnel soignant et plan hôpital." },
+                    { id: "budget_recherche", title: "Budget recherche", content: "Porté à 3.5% du PIB pour garantir la souveraineté scientifique." },
+                    { id: "ondam", title: "Réévaluation de l'ONDAM", content: "Calcul réel fondé sur les besoins de santé publique." },
+                    { id: "cabinets_mobiles", title: "Cabinets médicaux mobiles", content: "Consultations itinérantes dans les communes rurales." },
+                    { id: "fraude_sociale", title: "Lutte contre la fraude sociale", content: "Unification de la carte vitale et identité numérique sécurisée." },
+                    { id: "jumeau_numerique", title: "Jumeau numérique de santé", content: "Modélisation informatique pour personnaliser les traitements." },
+                    { id: "ia_sante", title: "IA administrative de santé", content: "Automatisation du tiers-payant pour libérer du temps soignant." },
+                    { id: "rationalisme_medical", title: "Rationalisme médical et vaccination", content: "Politique vaccinale et prévention basées sur la preuve scientifique." },
+                    { id: "neuro_optimisation", title: "Neuro-optimisation", content: "Recherche sur la prévention des maladies neurodégénératives." },
+                    { id: "biotechnologies", title: "Développement des biotechnologies", content: "Soutien aux start-ups de thérapie génique et ARN." },
+                    { id: "spintronique", title: "Développement de la spintronique", content: "Composants électroniques à très faible consommation d'énergie." },
+                    { id: "quantique", title: "Développement du quantique", content: "Plan national pour le calcul quantique et la cryptographie." },
+                    { id: "restes_recherche", title: "Le reste de la recherche et fonctionnement", content: "Simplification administrative pour les chercheurs." },
+                    { id: "spatial", title: "Développement du spatial et station", content: "Participation active aux futurs modules d'exploration." },
+                    { id: "supercalculateur_fert", title: "Module spatial supercalculateur FERT", content: "Calcul haute performance spintronique embarqué en orbite." }
+                ]
+            },
+            {
+                id: "politique_vie_rep",
+                num: "05",
+                title: "Politique et VIème République",
+                image: "https://zupimages.net/up/26/44/sxot.png",
+                articles: [
+                    { id: "chambres_6rep", title: "6ème République et ses chambres", content: "Séparation stricte et représentation équilibrée." },
+                    { id: "suffrage_epistocratique", title: "Suffrage épistocratique pondéré", content: "Prise en compte des compétences techniques dans l'élaboration de la loi." },
+                    { id: "presidentielle_3tours", title: "Présidentielle en 3 tours", content: "Mécanisme d'invalidation par le vote blanc exécutoire." },
+                    { id: "nettoyage_institutions", title: "Nettoyage des institutions", content: "Suppression des comités théodules non évalués." },
+                    { id: "qcc", title: "Le QCC (Quotient de Capacité Cognitive)", content: "Outil d'évaluation facultatif des aptitudes de gouvernance." },
+                    { id: "tat", title: "Les TAT (Tests d'Accession au Travail)", content: "Validation empirique des compétences pour les postes de haute fonction publique." },
+                    { id: "qse", title: "Quotient de Sagesse et d'Éthique (QSE)", content: "Grille d'évaluation de la probité des candidats aux élections." },
+                    { id: "cse", title: "Le Conseil de Surveillance Éthique (CSE)", content: "Organe indépendant contrôlant la transparence de la vie publique." },
+                    { id: "devoir_exemplarite", title: "Devoir d’exemplarité des élus", content: "Inéligibilité définitive en cas de détournement de fonds publics." },
+                    { id: "fin_avantages_vie", title: "Fin des avantages politiques à vie", content: "Suppression des régimes spéciaux pour anciens présidents et ministres." },
+                    { id: "ccce", title: "Chambre Citoyenne de Consultation et d'Expertise (CCCE)", content: "Assemblée mixte tirée au sort et constituée d'experts." },
+                    { id: "meritocratie_salaires", title: "Méritocratie et salaires", content: "Échelle des rémunérations encadrée dans la fonction publique." },
+                    { id: "gardiens_terre", title: "Gardiens de la Terre et Parcours de Réhabilitation", content: "Services civiques d'intérêt environnemental." },
+                    { id: "fenetre_overton", title: "Retour de la fenêtre d’Overton vers le progrès", content: "Revalorisation du bien commun et de la rationalité." }
+                ]
+            },
+            {
+                id: "education_culture",
+                num: "06",
+                title: "Éducation et culture",
+                image: "https://zupimages.net/up/26/44/8vt7.png",
+                articles: [
+                    { id: "tuto", title: "Système T.U.T.O.", content: "Transmetteur Universel de Théories et d’Optimisation pour l'apprentissage." },
+                    { id: "controle_ia", title: "Contrôle de l’IA", content: "Encadrement éthique des algorithmes dans les écoles." },
+                    { id: "fiscalite_culturelle", title: "Fiscalité Culturelle Inversée", content: "Financement des créations indépendantes par les plateformes." },
+                    { id: "budget_culture", title: "Budget de la culture", content: "Soutien sanctuarisé au patrimoine et aux compagnies locales." },
+                    { id: "fiabilite_sociale", title: "Crédit de Fiabilité Sociale", content: "Valorisation de l'engagement bénévole et citoyen." },
+                    { id: "pollution_intellectuelle", title: "Lutte contre la Pollution Intellectuelle", content: "Régulation des contenus sensationnalistes de désinformation." },
+                    { id: "budget_education", title: "Budget de l'éducation", content: "Revalorisation massive des enseignants." },
+                    { id: "uniformes", title: "Uniformes scolaires", content: "Tenue commune pour réduire les inégalités visibles." },
+                    { id: "excellence_education", title: "Réforme de l'excellence", content: "Exigence académique renforcée en mathématiques et français." },
+                    { id: "petite_enfance", title: "Investissement dans la petite enfance", content: "Places de crèche garantes de l'égalité initiale." },
+                    { id: "education_population", title: "Éducation de la population", content: "Formation continue tout au long de la vie." },
+                    { id: "clarte_linguistique", title: "Clarté linguistique", content: "Défense de la langue française scientifique et littéraire." }
+                ]
+            },
+            {
+                id: "justice_cohesion",
+                num: "07",
+                title: "Justice et cohésion sociale",
+                image: "https://zupimages.net/up/26/44/cryy.png",
+                articles: [
+                    { id: "responsabilite_proportionnelle", title: "Responsabilité Proportionnelle", content: "Sanctions adaptées aux ressources et à l'impact des infractions." },
+                    { id: "elite_surveillance", title: "Élite politique sous surveillance", content: "Transparence totale des patrimoines des décideurs." },
+                    { id: "budget_justice", title: "Budget du judiciaire et de la police", content: "Soutien aux moyens matériels et humains." },
+                    { id: "prisons_effectives", title: "Des vraies prisons", content: "Conditions dignes mais exécution ferme des peines." },
+                    { id: "droit_vote_prisonniers", title: "Droits civiques des détenus", content: "Suspension des droits de vote pour les crimes graves." },
+                    { id: "delinquance_mineurs", title: "Délinquance des mineurs", content: "Centres éducatifs fermés et responsabilisation des parents." },
+                    { id: "securite_routiere", title: "Révision sur la sécurité routière", content: "Prévention ciblée et fin du harcèlement sur petites infractions." },
+                    { id: "revenu_contribution", title: "Revenu de contribution", content: "Garantie financière liée à l'activité ou formation." },
+                    { id: "antiracisme", title: "Anti-racisme universaliste", content: "Lutte républicaine contre toutes les discriminations." },
+                    { id: "creches_publiques", title: "Crèches et petites enfances", content: "Service public d'accueil universel." },
+                    { id: "despeculation_immobiliere", title: "Pacte Justice Immobilière & Déspéculation", content: "Encadrement des loyers et taxe sur logements vacants." },
+                    { id: "retraites", title: "Retraite équitable", content: "Prise en compte de la pénibilité réelle des carrières." }
+                ]
+            },
+            {
+                id: "economie",
+                num: "08",
+                title: "Économie",
+                image: "https://zupimages.net/up/26/44/jdg5.png",
+                articles: [
+                    { id: "gaullisme_social", title: "Gaullisme social : l’État-providence productif", content: "Planification industrielle au service du modèle social." },
+                    { id: "investissement_epistemique", title: "Investissement industriel à l'étranger", content: "Stratégie d'exportation de notre savoir-faire." },
+                    { id: "protectionnisme_etatique", title: "Protectionnisme ciblé", content: "Ecocontributions sur les importations non-normées." },
+                    { id: "combinat_industriel", title: "Le Combinat Industriel", content: "Synergies régionales entre PME, recherche et formation." },
+                    { id: "soutien_pme", title: "Soutien aux PME et TPE", content: "Allègement de la bureaucratie administrative." },
+                    { id: "ressources_strategiques", title: "Exploitation des Ressources Stratégiques", content: "Gestion publique du lithium, de l'eau et du bois." },
+                    { id: "taxation_richesses", title: "Taxation des grandes richesses", content: "Contribution de solidarité sur le capital improductif." },
+                    { id: "pancapitalisme", title: "Pancapitalisme noocratique", content: "Actionnariat salarié généralisé dans les grands groupes." },
+                    { id: "pilier2_ue", title: "Révision de la directive Pilier 2 UE", content: "Impôt minimal effectif sur les multinationales." },
+                    { id: "droits_succession", title: "Droits de succession", content: "Exonération du logement familial principal." },
+                    { id: "suppression_taxes_faibles", title: "Suppression des Taxes à Faible Rendement", content: "Nettoyage de la fiscalité complexe." },
+                    { id: "impots_production", title: "Impôts de production", content: "Baisse ciblée sur les usines implantées sur le territoire." },
+                    { id: "desertification_campagnes", title: "Lutte contre la désertification des campagnes", content: "Avantages fiscaux pour l'installation de commerces." }
+                ]
+            },
+            {
+                id: "politique_etrangere",
+                num: "09",
+                title: "Politique étrangère",
+                image: "https://zupimages.net/up/26/44/w2md.png",
+                articles: [
+                    { id: "immigration_merite", title: "Immigration par le Mérite", content: "Attraction ciblée des talents, chercheurs et étudiants." },
+                    { id: "attractivite_cerveaux", title: "Attractivité des cerveaux", content: "Conditions d'accueil privilégiées pour scientifiques internationaux." },
+                    { id: "migrants_clandestins", title: "Gestion des migrants clandestins", content: "Traitement humain mais strict aux frontières." },
+                    { id: "emigration", title: "Politique d'émigration", content: "Soutien à la diaspora française et retour des compétences." },
+                    { id: "leadership_exemple", title: "Leadership par l'Exemple", content: "Diplomatie environnementale fondée sur nos réussites." },
+                    { id: "souverainete_standards", title: "Souveraineté des Standards", content: "Imposition de nos normes de sécurité sanitaire aux échanges." },
+                    { id: "diffusion_noocratique", title: "Diffusion noocratique", content: "Rayonnement culturel et scientifique international." },
+                    { id: "vis_a_vis_ue", title: "Vis-à-vis de l’Union Européenne", content: "Réforme des traités vers une Europe des projets concrets." },
+                    { id: "rapport_otan", title: "Le Rapport à l'OTAN", content: "Autonomie stratégique de défense nationale." },
+                    { id: "verite_factuelle", title: "Vérité Factuelle vs Guerres Culturelles", content: "Diplomatie basée sur la neutralité et les faits." },
+                    { id: "vis_a_vis_chine", title: "Vis-à-vis de la Chine", content: "Réciprocité strictly calculée dans les échanges." },
+                    { id: "barrieres_douanieres", title: "Barrières Douanières Gagnant-Gagnant", content: "Ajustement carbone aux frontières." },
+                    { id: "partenariats_tech", title: "Partenariats Technologiques Ciblés", content: "Coopérations bilatérales d'excellence." },
+                    { id: "guerre_information", title: "Guerre de l'Information", content: "Cyberdéfense et protection de la souveraineté narrative." },
+                    { id: "russie_ukraine", title: "Vis-à-vis de la Russie et de l’Ukraine", content: "Diplomatie de paix fondée sur le droit international." },
+                    { id: "israel_palestinement", title: "Vis-à-vis d’Israël et de la Palestine", content: "Soutien à la solution à deux États et à la paix." },
+                    { id: "cin", title: "Le Comité International Noocratique (CIN)", content: "Réseau mondial de concertation scientifique." }
+                ]
+            },
+            {
+                id: "budget_programme",
+                num: "10",
+                title: "Budget du programme",
+                image: "https://zupimages.net/up/26/44/8i73.png",
+                articles: [
+                    { id: "economies_recettes", title: "Économies et recettes", content: "Lutte contre l'optimisation fiscale et simplification administrative." },
+                    { id: "depenses_prioritaires", title: "Dépenses prioritaires", content: "Investissements massifs dans la santé, l'éducation et la transition." },
+                    { id: "projection_avenir", title: "Projection d'avenir", content: "Trajectoire de désendettement à 15 ans portée par la croissance verte." }
+                ]
+            }
+        ];
+
+        let programVolets = JSON.parse(localStorage.getItem('asn_program_data'));
+        if (!programVolets || !Array.isArray(programVolets) || programVolets.length === 0) {
+            programVolets = defaultProgramVolets;
+            localStorage.setItem('asn_program_data', JSON.stringify(programVolets));
+        }
+
+        function getClientIpId() {
+            let id = localStorage.getItem('asn_client_ip_sim');
+            if (!id) {
+                id = 'ip_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+                localStorage.setItem('asn_client_ip_sim', id);
+            }
+            return id;
+        }
+
+        const clientIp = getClientIpId();
+        let readArticles = new Set(JSON.parse(localStorage.getItem('asn_read_articles_' + clientIp)) || []);
+        let totalArticlesCount = 0;
+        let currentOpenVoletId = null;
+        let isAdminLoggedIn = localStorage.getItem('asn_admin_logged') === 'true';
+
+        function saveReadArticlesState() {
+            localStorage.setItem('asn_read_articles_' + clientIp, JSON.stringify(Array.from(readArticles)));
+        }
+
+        function countTotalArticles() {
+            let count = 0;
+            programVolets.forEach(v => {
+                if (v && v.articles) count += v.articles.length;
+            });
+            return count;
+        }
+
+        function markArticleAsRead(articleGlobalId) {
+            readArticles.add(articleGlobalId);
+            saveReadArticlesState();
+            updateProgressBar();
+            const checkEl = document.getElementById('check-' + articleGlobalId);
+            if (checkEl) {
+                checkEl.className = "fa-solid fa-square-check text-emerald-600 text-sm";
+            }
+        }
+
+        function updateProgressBar() {
+            totalArticlesCount = countTotalArticles();
+            const percent = totalArticlesCount > 0 ? Math.round((readArticles.size / totalArticlesCount) * 100) : 0;
+            const progressTextEl = document.getElementById('progress-text');
+            const progressBarFillEl = document.getElementById('progress-bar-fill');
+            if (progressTextEl) progressTextEl.innerText = `Vous avez consulté ${percent}% du programme de l'ASN (${readArticles.size}/${totalArticlesCount} articles)`;
+            if (progressBarFillEl) progressBarFillEl.style.width = percent + '%';
+        }
+
+        function renderVoletsGrid() {
+            const container = document.getElementById('volets-grid');
+            if (!container) return;
+            container.innerHTML = '';
+
+            programVolets.forEach(v => {
+                const card = document.createElement('div');
+                card.className = "bg-[#def0ff] rounded-2xl p-6 shadow-md border border-sky-200 flex flex-col justify-between transition-all hover:shadow-lg";
+                
+                let videoHTML = "";
+                if (v.videoUrl) {
+                    videoHTML = `
+                        <div class="border-t border-sky-200/70 pt-3 mt-4">
+                            <span class="text-[11px] font-bold text-slate-700 mb-1 flex items-center gap-1">
+                                <i class="fa-brands fa-youtube text-red-600"></i> Vidéo disponible
+                            </span>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div>
+                        <div class="mb-3">
+                            <span class="px-3 py-1 bg-white text-sky-900 rounded-full text-xs font-bold shadow-sm border border-sky-100 inline-block">Volet ${v.num}</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center mb-4">
+                            <div class="sm:col-span-8">
+                                <h3 class="text-xl font-bold text-slate-900 mb-1">${v.title}</h3>
+                                <p class="text-xs text-slate-700 leading-relaxed">${v.articles ? v.articles.length : 0} articles détaillés disponibles dans ce chapitre.</p>
+                            </div>
+                            <div class="sm:col-span-4 flex justify-end">
+                                <div class="bg-white p-1.5 rounded-xl shadow-md border border-sky-200 w-24 h-20 flex items-center justify-center overflow-hidden shrink-0">
+                                    <img src="${v.image}" alt="${v.title}" class="w-full h-full object-cover rounded-lg">
+                                </div>
+                            </div>
+                        </div>
+
+                        ${videoHTML}
+                    </div>
+
+                    <button onclick="openVoletDetail('${v.id}')" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-4 rounded-xl text-xs shadow-md transition-all flex items-center justify-center gap-2 mt-2 cursor-pointer">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span>Explorer ce volet du programme</span>
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function openVoletDetail(voletId) {
+            currentOpenVoletId = voletId;
+            const savedData = localStorage.getItem('asn_program_data');
+            if (savedData) {
+                try {
+                    programVolets = JSON.parse(savedData);
+                } catch(e) {}
+            }
+
+            const volet = programVolets.find(v => v.id === voletId);
+            if (!volet) return;
+
+            document.getElementById('detail-volet-tag').innerText = `Volet ${volet.num}`;
+            document.getElementById('detail-volet-title').innerText = volet.title;
+
+            const adminActionsEl = document.getElementById('volet-admin-actions');
+            if (adminActionsEl) {
+                if (isAdminLoggedIn) {
+                    adminActionsEl.classList.remove('hidden');
+                    adminActionsEl.classList.add('flex');
+                } else {
+                    adminActionsEl.classList.add('hidden');
+                    adminActionsEl.classList.remove('flex');
+                }
+            }
+
+            const videoContainer = document.getElementById('detail-video-container');
+            const iframe = document.getElementById('detail-video-iframe');
+            if (volet.videoUrl && volet.videoUrl.trim() !== "") {
+                iframe.src = volet.videoUrl;
+                videoContainer.classList.remove('hidden');
+            } else {
+                iframe.src = "";
+                videoContainer.classList.add('hidden');
+            }
+
+            const summaryContainer = document.getElementById('detail-articles-summary');
+            summaryContainer.innerHTML = '';
+
+            const bodyContainer = document.getElementById('detail-articles-body');
+            bodyContainer.innerHTML = '';
+
+            if (volet.articles) {
+                volet.articles.forEach((art, idx) => {
+                    const globalId = `${volet.id}_${art.id}`;
+                    const isRead = readArticles.has(globalId);
+
+                    const sumItem = document.createElement('a');
+                    sumItem.href = `#art-card-${globalId}`;
+                    sumItem.className = "flex items-center justify-between p-2 rounded-lg bg-white border border-slate-200 hover:border-sky-400 transition-all text-slate-700 font-medium";
+                    sumItem.onclick = () => markArticleAsRead(globalId);
+                    sumItem.innerHTML = `
+                        <span class="truncate mr-2">${idx + 1}. ${art.title}</span>
+                        <i id="check-${globalId}" class="${isRead ? 'fa-solid fa-square-check text-emerald-600' : 'fa-regular fa-square text-slate-300'} text-sm"></i>
+                    `;
+                    summaryContainer.appendChild(sumItem);
+
+                    const artCard = document.createElement('div');
+                    artCard.id = `art-card-${globalId}`;
+                    artCard.className = "article-card-anchor p-6 rounded-2xl bg-[#def0ff] border border-sky-200 shadow-sm transition-all hover:shadow-md relative";
+
+                    let editBtnHTML = isAdminLoggedIn ? `
+                        <button onclick="openArticleEditor('${volet.id}', '${art.id}')" class="absolute top-6 right-16 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-3 py-1 rounded-lg shadow transition-all flex items-center gap-1 z-10 cursor-pointer">
+                            <i class="fa-solid fa-pen-to-square"></i> Éditer
+                        </button>
+                    ` : '';
+
+                    let img1HTML = "";
+                    if (art.image) {
+                        img1HTML = `
+                            <div class="my-4 text-center">
+                                <div class="inline-block relative group cursor-pointer overflow-hidden rounded-xl shadow-md border border-slate-300 bg-white transition-all hover:shadow-xl max-w-sm mx-auto" onclick="openImageModal('${art.image}', '${art.title}')">
+                                    <img src="${art.image}" alt="${art.title}" class="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105">
+                                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-bold text-xs p-2">
+                                        <i class="fa-solid fa-magnifying-glass-plus text-lg"></i>
+                                        <span>Cliquer pour agrandir</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    let img2HTML = "";
+                    if (art.image2) {
+                        img2HTML = `
+                            <div class="my-4 text-center">
+                                <div class="inline-block relative group cursor-pointer overflow-hidden rounded-xl shadow-md border border-slate-300 bg-white transition-all hover:shadow-xl max-w-sm mx-auto" onclick="openImageModal('${art.image2}', '${art.title} (Illustration de fin)')">
+                                    <img src="${art.image2}" alt="${art.title} illustration fin" class="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105">
+                                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-bold text-xs p-2">
+                                        <i class="fa-solid fa-magnifying-glass-plus text-lg"></i>
+                                        <span>Cliquer pour agrandir</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    artCard.innerHTML = `
+                        ${editBtnHTML}
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="text-lg font-bold text-slate-900">${art.title}</h4>
+                            <button onclick="markArticleAsRead('${globalId}')" class="text-xs bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded-full hover:bg-emerald-200 transition-all cursor-pointer">
+                                Marquer comme lu
+                            </button>
+                        </div>
+                        ${img1HTML}
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed whitespace-pre-line">${art.content}</p>
+                        ${img2HTML}
+                        
+                        <div class="mt-6 pt-4 border-t border-sky-200/80 flex justify-end">
+                            <a href="#volet-summary-box" onclick="markArticleAsRead('${globalId}')" class="inline-flex items-center gap-1.5 text-xs font-bold text-sky-800 hover:text-sky-950 bg-sky-100/80 hover:bg-sky-200/80 px-3.5 py-1.5 rounded-lg transition-all">
+                                <i class="fa-solid fa-arrow-up"></i>
+                                <span>Retour au sommaire du volet</span>
+                            </a>
+                        </div>
+                    `;
+
+                    bodyContainer.appendChild(artCard);
+                });
+            }
+
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('content-volet-detail').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openVoletVideoEditor() {
+            if (!currentOpenVoletId) return;
+            const volet = programVolets.find(v => v.id === currentOpenVoletId);
+            if (!volet) return;
+
+            document.getElementById('edit-volet-video-id').value = currentOpenVoletId;
+            document.getElementById('edit-volet-video-url').value = volet.videoUrl || '';
+            document.getElementById('volet-video-editor-modal').classList.remove('hidden');
+        }
+
+        function closeVoletVideoEditor() {
+            document.getElementById('volet-video-editor-modal').classList.add('hidden');
+        }
+
+        function saveVoletVideoChanges() {
+            const voletId = document.getElementById('edit-volet-video-id').value;
+            const newUrl = document.getElementById('edit-volet-video-url').value.trim();
+
+            const volet = programVolets.find(v => v.id === voletId);
+            if (volet) {
+                volet.videoUrl = newUrl !== "" ? newUrl : undefined;
+                localStorage.setItem('asn_program_data', JSON.stringify(programVolets));
+                alert("Vidéo du volet mise à jour avec succès !");
+                closeVoletVideoEditor();
+                openVoletDetail(voletId);
+                renderVoletsGrid();
+            }
+        }
+
+        function addNewArticleToCurrentVolet() {
+            if (!currentOpenVoletId) return;
+            const volet = programVolets.find(v => v.id === currentOpenVoletId);
+            if (!volet) return;
+
+            const newArtId = "article_" + Date.now();
+            const newArticle = {
+                id: newArtId,
+                title: "Titre",
+                content: "nouvelle idée"
+            };
+
+            if (!volet.articles) volet.articles = [];
+            volet.articles.push(newArticle);
+
+            localStorage.setItem('asn_program_data', JSON.stringify(programVolets));
+            updateProgressBar();
+            renderVoletsGrid();
+            openVoletDetail(currentOpenVoletId);
+            alert("Nouvel article ajouté ! Vous pouvez maintenant le modifier à votre guise.");
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(el => {
+                el.classList.remove('bg-sky-50', 'text-sky-800');
+                el.classList.add('text-slate-600');
+            });
+
+            const target = document.getElementById('content-' + tabId);
+            if (target) target.classList.add('active');
+
+            const targetNav = document.getElementById('nav-' + tabId);
+            if (targetNav) {
+                targetNav.classList.remove('text-slate-600');
+                targetNav.classList.add('bg-sky-50', 'text-sky-800');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        let supportCount = parseInt(localStorage.getItem('asn_support_count')) || 1000;
+
+        function updateSupportCounterDisplay() {
+            const counterEl = document.getElementById('support-counter');
+            if (counterEl) {
+                counterEl.innerText = supportCount;
+            }
+            
+            const hasSupported = localStorage.getItem('asn_supported_' + clientIp);
+            const btnContainer = document.getElementById('support-button-container');
+
+            if (btnContainer) {
+                if (hasSupported) {
+                    btnContainer.innerHTML = `<span class="inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 font-bold px-6 py-3 rounded-xl text-xs border border-emerald-300">
+                        <i class="fa-solid fa-circle-check text-emerald-600"></i>
+                        Merci ! Vous soutenez l'ASN.
+                    </span>`;
+                } else {
+                    btnContainer.innerHTML = `<button onclick="incrementSupport()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl text-xs shadow-md transition-all flex items-center justify-center gap-2 mx-auto">
+                        <i class="fa-solid fa-heart text-amber-300"></i>
+                        <span>Je soutiens !</span>
+                    </button>`;
+                }
+            }
+        }
+
+        function incrementSupport() {
+            if (localStorage.getItem('asn_supported_' + clientIp)) return;
+
+            supportCount++;
+            localStorage.setItem('asn_support_count', supportCount);
+            localStorage.setItem('asn_supported_' + clientIp, 'true');
+            updateSupportCounterDisplay();
+        }
+
+        function handleSupportSignup(e) {
+            e.preventDefault();
+            const name = document.getElementById('supporter-name').value.trim();
+            const email = document.getElementById('supporter-email').value.trim();
+            
+            if (name === "CryxASN" && email === "pro83.jeunesse@gmail.com") {
+                const randomCode = Math.floor(100000 + Math.random() * 900000);
+                alert(`[SIMULATION EMAIL] Un email vient d'être envoyé à pro83.jeunesse@gmail.com :\n\n"Voici les 6 chiffres d'accès au mode admin du site ASN : ${randomCode}"`);
+                
+                const enteredCode = prompt("Entrez les 6 chiffres reçus par email pour valider l'accès admin :");
+                if (enteredCode === randomCode.toString()) {
+                    loginAdmin();
+                    alert("Accès administrateur validé avec succès !");
+                } else {
+                    alert("Code incorrect.");
+                }
+                e.target.reset();
+                return;
+            }
+
+            const safeName = sanitizeText(name);
+            const safeEmail = sanitizeText(email);
+
+            let list = JSON.parse(localStorage.getItem('asn_subscribers')) || [];
+            list.push({ name: safeName, email: safeEmail, date: new Date().toLocaleDateString() });
+            localStorage.setItem('asn_subscribers', JSON.stringify(list));
+
+            alert(`Merci ${safeName} ! Votre adresse a bien été enregistrée sur la liste des soutiens.`);
+            e.target.reset();
+        }
+
+        function loginAdmin() {
+            isAdminLoggedIn = true;
+            localStorage.setItem('asn_admin_logged', 'true');
+            document.getElementById('admin-badge').classList.remove('hidden');
+            document.getElementById('admin-badge').classList.add('flex');
+            document.getElementById('admin-dashboard-card').classList.remove('hidden');
+            renderComments();
+            renderVoletsGrid();
+            if (currentOpenVoletId) openVoletDetail(currentOpenVoletId);
+        }
+
+        function logoutAdmin() {
+            isAdminLoggedIn = false;
+            localStorage.removeItem('asn_admin_logged');
+            document.getElementById('admin-badge').classList.add('hidden');
+            document.getElementById('admin-badge').classList.remove('flex');
+            document.getElementById('admin-dashboard-card').classList.add('hidden');
+            renderVoletsGrid();
+            if (currentOpenVoletId) openVoletDetail(currentOpenVoletId);
+            switchTab('accueil');
+            alert("Déconnecté du mode administrateur.");
+        }
+
+        function openContactModal() {
+            document.getElementById('contact-modal').classList.remove('hidden');
+        }
+
+        function closeContactModal() {
+            document.getElementById('contact-modal').classList.add('hidden');
+        }
+
+        function openArticleEditor(voletId, articleId) {
+            const volet = programVolets.find(v => v.id === voletId);
+            if (!volet) return;
+            const article = volet.articles.find(a => a.id === articleId);
+            if (!article) return;
+
+            document.getElementById('edit-volet-id').value = voletId;
+            document.getElementById('edit-article-id').value = articleId;
+            document.getElementById('edit-article-title').value = article.title;
+            document.getElementById('edit-article-image').value = article.image || '';
+            document.getElementById('edit-article-image2').value = article.image2 || '';
+            document.getElementById('edit-article-content').value = article.content;
+
+            document.getElementById('article-editor-modal').classList.remove('hidden');
+        }
+
+        function closeArticleEditor() {
+            document.getElementById('article-editor-modal').classList.add('hidden');
+        }
+
+        function saveArticleChanges() {
+            const voletId = document.getElementById('edit-volet-id').value;
+            const articleId = document.getElementById('edit-article-id').value;
+            const newTitle = document.getElementById('edit-article-title').value;
+            const newImage = document.getElementById('edit-article-image').value.trim();
+            const newImage2 = document.getElementById('edit-article-image2').value.trim();
+            const newContent = document.getElementById('edit-article-content').value;
+
+            const volet = programVolets.find(v => v.id === voletId);
+            if (volet) {
+                const article = volet.articles.find(a => a.id === articleId);
+                if (article) {
+                    article.title = newTitle;
+                    article.image = newImage !== "" ? newImage : undefined;
+                    article.image2 = newImage2 !== "" ? newImage2 : undefined;
+                    article.content = newContent;
+                    localStorage.setItem('asn_program_data', JSON.stringify(programVolets));
+                    alert("Modifications enregistrées avec succès !");
+                    closeArticleEditor();
+                    openVoletDetail(voletId);
+                }
+            }
+        }
+
+        function sanitizeText(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        function handleCommentSubmit(e) {
+            e.preventDefault();
+            const author = sanitizeText(document.getElementById('comment-author').value);
+            const text = sanitizeText(document.getElementById('comment-text').value);
+
+            let comments = JSON.parse(localStorage.getItem('asn_comments')) || [];
+            comments.push({
+                id: Date.now(),
+                author: author,
+                text: text,
+                status: 'pending',
+                date: new Date().toLocaleDateString()
+            });
+
+            localStorage.setItem('asn_comments', JSON.stringify(comments));
+            alert("Votre commentaire a bien été transmis et sera visible après validation par l'administration.");
+            e.target.reset();
+            renderComments();
+        }
+
+        function renderComments() {
+            const comments = JSON.parse(localStorage.getItem('asn_comments')) || [];
+            const publicContainer = document.getElementById('public-comments-container');
+            const adminListContainer = document.getElementById('admin-comments-list');
+
+            if (!publicContainer) return;
+
+            const approved = comments.filter(c => c.status === 'approved');
+            if (approved.length === 0) {
+                publicContainer.innerHTML = `<p class="text-xs text-slate-500 italic">Aucun commentaire validé pour le moment. Soyez le premier à encourager le mouvement !</p>`;
+            } else {
+                publicContainer.innerHTML = approved.map(c => `
+                    <div class="p-4 bg-slate-50 border border-slate-100 rounded-2xl">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="font-bold text-xs text-slate-900">${c.author}</span>
+                            <span class="text-[10px] text-slate-400">${c.date}</span>
+                        </div>
+                        <p class="text-xs text-slate-700 leading-relaxed">${c.text}</p>
+                    </div>
+                `).join('');
+            }
+
+            if (isAdminLoggedIn && adminListContainer) {
+                if (comments.length === 0) {
+                    adminListContainer.innerHTML = `<p class="text-slate-400 italic text-xs">Aucun commentaire en attente.</p>`;
+                } else {
+                    adminListContainer.innerHTML = comments.map(c => `
+                        <div class="p-3 bg-slate-800 border border-slate-700 rounded-xl flex items-center justify-between gap-2 text-xs">
+                            <div class="overflow-hidden">
+                                <span class="font-bold text-amber-300">${c.author}</span> <span class="text-[10px] text-slate-400">(${c.status})</span>
+                                <p class="text-[11px] text-slate-300 truncate">${c.text}</p>
+                            </div>
+                            <div class="flex items-center gap-1 shrink-0">
+                                ${c.status === 'pending' ? `<button onclick="approveComment(${c.id})" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 rounded text-[10px] font-bold">Valider</button>` : ''}
+                                <button onclick="deleteComment(${c.id})" class="px-2 py-1 bg-red-600 hover:bg-red-700 rounded text-[10px] font-bold">Supprimer</button>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            }
+        }
+
+        function approveComment(id) {
+            let comments = JSON.parse(localStorage.getItem('asn_comments')) || [];
+            comments = comments.map(c => c.id === id ? {...c, status: 'approved'} : c);
+            localStorage.setItem('asn_comments', JSON.stringify(comments));
+            renderComments();
+        }
+
+        function deleteComment(id) {
+            let comments = JSON.parse(localStorage.getItem('asn_comments')) || [];
+            comments = comments.filter(c => c.id !== id);
+            localStorage.setItem('asn_comments', JSON.stringify(comments));
+            renderComments();
+        }
+
+        let currentScale = 1;
+        let posX = 0;
+        let posY = 0;
+        let isDragging = false;
+        let startX = 0;
+        let startY = 0;
+
+        function updateImageTransform(withTransition = false) {
+            const modalImg = document.getElementById('image-modal-src');
+            if (modalImg) {
+                modalImg.style.transition = withTransition ? 'transform 0.2s ease-out' : 'none';
+                modalImg.style.transform = `translate(${posX}px, ${posY}px) scale(${currentScale})`;
+            }
+        }
+
+        function openImageModal(imgSrc, title) {
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('image-modal-src');
+            const modalTitle = document.getElementById('image-modal-title');
+            
+            modalImg.src = imgSrc;
+            modalTitle.innerText = title || 'Carte ASN';
+            
+            currentScale = 1;
+            posX = 0;
+            posY = 0;
+            updateImageTransform(false);
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('image-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function zoomIn() {
+            currentScale = Math.min(currentScale + 0.35, 5.0);
+            updateImageTransform(true);
+        }
+
+        function zoomOut() {
+            currentScale = Math.max(currentScale - 0.35, 0.5);
+            if (currentScale <= 1) {
+                posX = 0;
+                posY = 0;
+            }
+            updateImageTransform(true);
+        }
+
+        function resetZoom() {
+            currentScale = 1;
+            posX = 0;
+            posY = 0;
+            updateImageTransform(true);
+        }
+
+        const modalViewport = document.getElementById('modal-viewport');
+        const modalImg = document.getElementById('image-modal-src');
+
+        if (modalViewport && modalImg) {
+            function startDrag(clientX, clientY) {
+                isDragging = true;
+                startX = clientX - posX;
+                startY = clientY - posY;
+                modalImg.style.transition = 'none';
+                modalViewport.style.cursor = 'grabbing';
+            }
+
+            function onDrag(clientX, clientY) {
+                if (!isDragging) return;
+                posX = clientX - startX;
+                posY = clientY - startY;
+                modalImg.style.transform = `translate(${posX}px, ${posY}px) scale(${currentScale})`;
+            }
+
+            function endDrag() {
+                if (isDragging) {
+                    isDragging = false;
+                    modalViewport.style.cursor = 'grab';
+                }
+            }
+
+            modalViewport.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                startDrag(e.clientX, e.clientY);
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                onDrag(e.clientX, e.clientY);
+            });
+
+            window.addEventListener('mouseup', () => {
+                endDrag();
+            });
+
+            modalViewport.addEventListener('mouseleave', () => {
+                endDrag();
+            });
+
+            modalViewport.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    startDrag(e.touches[0].clientX, e.touches[0].clientY);
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 1) {
+                    onDrag(e.touches[0].clientX, e.touches[0].clientY);
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchend', () => {
+                endDrag();
+            });
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeImageModal();
+                closeContactModal();
+                closeArticleEditor();
+                closeVoletVideoEditor();
+            }
+        });
+
+        const questions = [
+            { name: "Camargue", ecoregion: "Midi-Méditerranée", desc: "Terre de sel, de lumière et d'immenses zones humides, elle est célèbre pour ses manades, ses chevaux blancs, ses taureaux sauvages et ses colonies de flamants roses qui peuplent les étangs.", img: "https://zupimages.net/up/26/45/jt3f.png" },
+            { name: "Périgord Noir", ecoregion: "Dordogne-Atlantique", desc: "Cœur historique et préhistorique de la vallée de la Vézère, ce territoire boisé et vallonné regorge de châteaux médiévaux, de sites troglodytiques mondialement connus et d'une gastronomie d'excellence autour de la truffe et du cèpe.", img: "https://zupimages.net/up/26/45/kgw6.png" },
+            { name: "Cornouaille", ecoregion: "Bretagne-Normandie", desc: "Territoire façonné par les embruns marins, il est caractérisé par ses côtes sauvages, ses falaises granitiques abruptes et un patrimoine culturel et maritime d'une richesse exceptionnelle.", img: "https://zupimages.net/up/26/45/hh1t.png" },
+            { name: "Ardennes", ecoregion: "Rhin-Meuse", desc: "Vaste massif forestier transfrontalier aux vallées encaissées et mystérieuses, traversé par la Meuse, et marqué par une forte tradition industrielle, métallurgique et légendaire.", img: "https://zupimages.net/up/26/45/inlr.png" },
+            { name: "Pays de Caux", ecoregion: "Nord-Manche", desc: "Célèbre pour ses spectaculaires falaises de craie blanche plongeant dans la mer, ses amples plateaux limoneux et ses typiques fermes fortifiées enclos de hauts 'masures' plantés de pommiers.", img: "https://zupimages.net/up/26/45/zfw4.png" },
+            { name: "Beaujolais", ecoregion: "Vallée Rhodanienne", desc: "Pays de collines douces et lumineuses, mondialement réputé pour ses vignobles en terrasses produisant des vins de caractère et parsemé de charmants villages construits en pierre dorée.", img: "https://zupimages.net/up/26/45/z2oo.png" },
+            { name: "Sologne", ecoregion: "Pays de Loire", desc: "Immense mosaïque de forêts giboyeuses et d'étangs secrets, parsemée de châteaux de brique rouge, constituant un sanctuaire naturel et cynégétique au cœur des terres ligériennes.", img: "https://zupimages.net/up/26/45/yifb.png" },
+            { name: "Medoc", ecoregion: "Adour-Landes", desc: "Presqu'île de sable, de pinèdes et de grands estuaires, mondialement célèbre pour abriter les châteaux viticoles les plus prestigieux de la planète le long de la route des grands crus.", img: "https://zupimages.net/up/26/45/8247.png" },
+            { name: "Luberon", ecoregion: "Midi-Méditerranée", desc: "Massif calcaire baigné de soleil, parsemé de villages perchés spectaculaires, de combes sauvages, de champs de lavande et d'anciennes carrières d'ocre aux teintes flamboyantes.", img: "https://zupimages.net/up/26/45/8vvm.png" },
+            { name: "Tarentaise", ecoregion: "Haute-Alpine", desc: "Haute vallée de haute montagne creusée par l'Isère, entourée de sommets prestigieux et de parcs nationaux, connue pour ses stations de sports d'hiver de renommée mondiale et son riche patrimoine pastoral.", img: "https://zupimages.net/up/26/45/pvhp.png" },
+            { name: "Perche", ecoregion: "Pays de Loire", desc: "Douces collines verdoyantes de bocages, de manoirs historiques en pierre de roussard et de forêts profondes, berceau historique de la célèbre race de chevaux de trait éponyme.", img: "https://zupimages.net/up/26/45/jckr.png" },
+            { name: "Brie", ecoregion: "Val de Seine", desc: "Vaste plateau fertile voué à la grande céréaliculture, traversé par la Marne et historiquement réputé pour ses terroirs agricoles d'excellence et ses productions fromagères emblématiques.", img: "https://zupimages.net/up/26/45/pbwi.png" },
+            { name: "Flandre française", ecoregion: "Nord-Manche", desc: "Terre de plaines et de polders marquée par une forte culture nordique, ses beffrois classés, ses moulins à vent, ses canaux et son architecture traditionnelle en briques rouges.", img: "https://zupimages.net/up/26/45/ocil.png" },
+            { name: "Forêt de Haguenau-Kochersberg", ecoregion: "Rhin-Meuse", desc: "Vaste massif forestier de plaine de type rhénan et terres de collines lœssiques très fertiles, riches en traditions brassicoles, dialectales et en patrimoine architectural alsacien.", img: "https://zupimages.net/up/26/45/sibn.png" },
+            { name: "Saintonge romaine", ecoregion: "Dordogne-Atlantique", desc: "Ancien cœur historique gallo-romain marqué par ses pierres calcaires claires, ses églises romanes remarquables, ses vignes productrices de cognac et ses paysages ouverts.", img: "https://zupimages.net/up/26/45/8f5e.png" },
+            { name: "Cotentin", ecoregion: "Bretagne-Normandie", desc: "Presqu'île aux paysages de bocages fermés, de havres sauvages et de caps granitiques balayés par les marées et les vents, riche d'une longue histoire maritime et militaire.", img: "https://zupimages.net/up/26/45/jznr.png" },
+            { name: "Pays basque", ecoregion: "Adour-Landes", desc: "Territoire de culture séculaire adossé aux reliefs montagneux, s'étirant jusqu'aux vagues de l'océan, caractérisé par ses maisons à colombages rouges, ses traditions sportives et sa forte identité.", img: "https://zupimages.net/up/26/45/g0d4.png" },
+            { name: "Grands Causses", ecoregion: "Garonnie", desc: "Vastes plateaux calcaires arides et spectaculaires, sculptés par de profondes gorges, modelés par le pastoralisme ancestral et la production des célèbres fromages persillés.", img: "https://zupimages.net/up/26/45/g83n.png" },
+            { name: "Cévennes", ecoregion: "Midi-Méditerranée", desc: "Chaîne de montagnes schisteuses aux vallées profondes, aux terrasses de culture en pierre sèche et aux paysages sauvages, façonnée par l'histoire protestante et une nature préservée.", img: "https://zupimages.net/up/26/45/nyq7.png" },
+            { name: "Nebbio-Bagnaja", ecoregion: "Corse", desc: "Microrégion ouverte sur un grand golfe marin, associant collines viticoles, oliveraies ancestrales et reliefs arides plongeant vers la mer.", img: "https://zupimages.net/up/26/45/qduj.png" }
+        ];
+
+        const allEcoregions = [
+            "Île-de-France", "Val de Seine", "Nord-Manche", "Bretagne-Normandie", 
+            "Pays de Loire", "Rhin-Meuse", "Dordogne-Atlantique", "Midi-Méditerranée", 
+            "Haute-Alpine", "Vallée Rhodanienne", "Garonnie", "Adour-Landes", "Corse"
+        ];
+
+        let gameCurrentQuestion = 0;
+        let gameScore = 0;
+        let currentMapZoom = 1;
+
+        function loadGameQuestion() {
+            if (gameCurrentQuestion >= questions.length) {
+                const container = document.getElementById('game-container');
+                if (container) {
+                    container.innerHTML = `
+                        <h2>🎉 Jeu terminé !</h2>
+                        <p style="font-size: 1.2rem; margin-top: 1rem;">Votre score final est de <strong>${gameScore} / ${questions.length}</strong>.</p>
+                        <button class="btn" onclick="restartGame()" style="background: #0284c7; color: white; padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-weight: 700; border: none; cursor: pointer; margin-top: 1rem;">Recommencer le jeu</button>
+                    `;
+                }
+                return;
+            }
+            const q = questions[gameCurrentQuestion];
+            const scoreDisplay = document.getElementById('score-display');
+            const qTitle = document.getElementById('q-title');
+            const qDesc = document.getElementById('q-desc');
+            const feedback = document.getElementById('game-feedback');
+            const nextBtn = document.getElementById('next-btn');
+
+            if (scoreDisplay) scoreDisplay.innerText = `Question ${gameCurrentQuestion + 1} / ${questions.length} | Score : ${gameScore}`;
+            if (qTitle) qTitle.innerText = q.name;
+            if (qDesc) qDesc.innerText = q.desc;
+            if (feedback) feedback.innerHTML = '';
+            if (nextBtn) nextBtn.style.display = 'none';
+
+            const grid = document.getElementById('eco-options');
+            if (!grid) return;
+            grid.innerHTML = '';
+            
+            let choices = [q.ecoregion];
+            while(choices.length < 12 && choices.length < allEcoregions.length) {
+                let randomEco = allEcoregions[Math.floor(Math.random() * allEcoregions.length)];
+                if(!choices.includes(randomEco)) choices.push(randomEco);
+            }
+            choices.sort(() => Math.random() - 0.5);
+
+            choices.forEach(eco => {
+                const btn = document.createElement('button');
+                btn.className = 'eco-btn';
+                btn.innerText = eco;
+                btn.onclick = () => submitAnswer(eco, q);
+                grid.appendChild(btn);
+            });
+        }
+
+        function submitAnswer(selectedEco, q) {
+            const feedbackEl = document.getElementById('game-feedback');
+            const isCorrect = (selectedEco === q.ecoregion);
+
+            document.querySelectorAll('.eco-btn').forEach(btn => btn.disabled = true);
+
+            if (isCorrect) {
+                gameScore++;
+                feedbackEl.className = 'feedback success';
+                feedbackEl.innerHTML = `Félicitation! Le territoire de ${q.name} se situe bien dans l'écorégion ${q.ecoregion}<br><img src="${q.img}" class="territory-img" alt="${q.name}">`;
+            } else {
+                feedbackEl.className = 'feedback error';
+                feedbackEl.innerHTML = `Bien essayé, mais non, le territoire de ${q.name} se situe dans l'écorégion ${q.ecoregion}<br><img src="${q.img}" class="territory-img" alt="${q.name}">`;
+            }
+
+            const nextBtn = document.getElementById('next-btn');
+            if (nextBtn) nextBtn.style.display = 'inline-block';
+        }
+
+        function nextQuestion() {
+            gameCurrentQuestion++;
+            loadGameQuestion();
+            const scoreDisplay = document.getElementById('score-display');
+            if (scoreDisplay) {
+                scoreDisplay.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function restartGame() {
+            gameCurrentQuestion = 0;
+            gameScore = 0;
+            const container = document.getElementById('game-container');
+            if (container) {
+                container.innerHTML = `
+                    <div class="score-board score-board-anchor" id="score-display"></div>
+                    <div class="game-card">
+                        <div class="question-text" id="q-title"></div>
+                        <p id="q-desc" class="text-sm text-slate-700"></p>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900 mt-6 mb-2">Référence visuelle de la carte :</h3>
+                    <div class="map-container">
+                        <img src="https://zupimages.net/up/26/35/10e4.png" alt="Carte des écorégions">
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900 mt-6 mb-2">Choisis l'écorégion correspondante :</h3>
+                    <div class="ecoregions-grid" id="eco-options"></div>
+                    <div id="game-feedback"></div>
+                    <button id="next-btn" class="btn btn-next" onclick="nextQuestion()">Question suivante ➔</button>
+                `;
+            }
+            loadGameQuestion();
+        }
+
+        function updateOpacity(val) {
+            const territoiresLayer = document.getElementById('layer-territoires');
+            const sliderVal = document.getElementById('slider-val');
+            if (territoiresLayer) territoiresLayer.style.opacity = val / 100;
+            if (sliderVal) sliderVal.innerText = val;
+        }
+
+        function zoomMap(factor) {
+            currentMapZoom *= factor;
+            if (currentMapZoom < 1) currentMapZoom = 1;
+            if (currentMapZoom > 3) currentMapZoom = 3;
+            const container = document.getElementById('layer-container');
+            if (container) {
+                container.style.width = (currentMapZoom * 100) + '%';
+                container.style.height = (currentMapZoom * 100) + '%';
+            }
+        }
+
+        function resetZoom() {
+            currentMapZoom = 1;
+            const container = document.getElementById('layer-container');
+            if (container) {
+                container.style.width = '100%';
+                container.style.height = '100%';
+            }
+        }
+
+        const quiz60 = [
+            { cat: "Écorégionalisme", title: "1. Il faut remplacer les 13 régions fusionnées actuelles par 13 écorégions découpées selon les bassins versants et écologiques." },
+            { cat: "Gouvernance", title: "2. Il faut instaurer un scrutin présidentiel à 3 tours (le 2ème tour servant de débat à 4 candidats), prendre en compte le vote blanc, ainsi qu’une large validation territoriale, pour garantir la légitimité réelle du vainqueur." },
+            { cat: "Démocratie", title: "3. Le vote blanc doit pouvoir annuler une élection s'il devient supérieur à 30% durant le dernier tour." },
+            { cat: "Agriculture", title: "4. Il faut interdire les pesticides à risques pour la santé et l’environnement et d’avantage se concentrer sur l’apport d’auxiliaires de culture naturel (biocontrôle)." },
+            { cat: "Jeunesse", title: "5. Par soucis d’image d’élite de l’éducation et d’égalité entre élèves, Il faut introduire les uniformes au collège et au lycée." },
+            { cat: "Science", title: "6. Le budget de la recherche doit être augmenté pour rattraper le retard pris par la France sur la moyenne européenne, et renforcer des grands projets d’avenir (photovoltaïques tandem-perovskite, ordinateurs spintroniques et quantiques, nucléaire de 4ème génération et fusion, spatial, médical…)" },
+            { cat: "Énergie", title: "7. Le mix énergétique national du futur doit s'appuyer sur le projet de remplacement total du parc nucléaire actuel pour des centrales nucléaires propres de 4ème génération, couplé aux énergies renouvelables." },
+            { cat: "Fiscalité", title: "8. La taxation des plus riches, hauts patrimoines et très grandes entreprises doit être revu à la hausse." },
+            { cat: "Économie", title: "9. L'État doit pouvoir intervenir directement pour réindustrialiser les secteurs stratégiques et investir dans de grands projets industriels nationaux." },
+            { cat: "Santé", title: "10. Il faut entretenir les services de soin de proximité et développer des cabinets mobiles en campagne." },
+            { cat: "Éducation", title: "11. Il faut augmenter le budget de l’éducation pour assurer la rénovation et construction d’établissements, diminuer le nombre d’élèves par classe, recruter et mieux payer les enseignants." },
+            { cat: "Justice", title: "12. Il faut augmenter le budget de la justice pour raccourcir les délais de traitement des affaires du quotidien et prévoir de nouvelles places de prison." },
+            { cat: "Environnement", title: "13. Le budget de défense contre les incendies doit être considérablement augmenté pour plus de matériel terrestre, plus de pompiers, et des commandes de bombardiers d’eau aux industries françaises." },
+            { cat: "Gouvernance", title: "14. Le référendum d'initiative citoyenne (RIC) doit être inscrit dans la Constitution." },
+            { cat: "Agriculture", title: "15. La revente d'électricité par l'agrivoltaïsme doit constituer un complément de revenu garanti pour les exploitants." },
+            { cat: "Culture", title: "16. Un budget de la culture amélioré doit permettre de préserver notre patrimoine en danger, la création et sécurisation de musées, le développement des médiathèques, le financement accru de l’archéologie et le tournage de documentaires culturels et scientifiques publiques." },
+            { cat: "Transports", title: "17. La taxation des carburants doit être revue pour augmenter la part du kérosène, favoriser les carburants verts, et bloquer les prix avec un bouclier d’ajustement des taxes en cas de crise pétrolière (bloquant au maximum à 1,7€ l’essence SP ou diesel en station)." },
+            { cat: "Logement", title: "18. Il faut d’avantage taxer les logements secondaires et de location saisonnière et airBnB dans les zones tendues pour limiter la spéculation immobilière et redonner la possibilité de locaux de se loger dignement." },
+            { cat: "Numérique", title: "19. Il faut apporter au public un contrôleur d’IA qui permet de vérifier rapidement si une source trouvée sur internet est originale ou une création artificielle." },
+            { cat: "Budget", title: "20. Tant que ça ne détruit pas plus la dette qu’actuellement, il faut réorganiser le budget pour à la fois avoir de nouvelles recettes et les réorienter dans de grands investissements pour reconstruire le pays et provoquer la relance." },
+            { cat: "Écogestion de l’eau", title: "21. La construction de nombreux grands bassins naturels servant à absorber les crues et relâcher l’eau en période de sécheresse doit être une priorité sur tout le territoire pour aider l’agriculture et limiter les catastrophes naturelles." },
+            { cat: "Santé", title: "22. La lutte contre la fraude sociale (à la sécurité sociale) doit être accrue pour limiter les milliards de pertes annuelles." },
+            { cat: "Éducation", title: "23. La lutte contre la pollution intellectuelle (désinformation, fake news, complotisme, révisionnisme…) doit être pleinement lancée pour assainir l’environnement éducatif et culturel de la population." },
+            { cat: "Politique", title: "24. Il faut diminuer d’un tiers le nombre de députés et sénateurs, et réduire leurs indemnités parlementaires, ainsi que les avantages à vie de certains élus." },
+            { cat: "Travail", title: "25. La pénibilité (métiers manuels ou de nuit…), et les études longues doivent fournir des trimestres de retraite supplémentaire." },
+            { cat: "Agriculture", title: "26. Il faut diminuer les cultures dédiées à l’exportation (maïs) et remplacer par des cultures que la France importe habituellement (fruits et légumes, soja)." },
+            { cat: "Culture & Éducation", title: "27. Il faut un test d’aptitude cognitive mesurant le QI et la culture générale pour tous afin de proposer les services nécessaires à l’élévation culturelle de la population." },
+            { cat: "Diplomatie", title: "28. Il faut tout autant reconnaître le droit d’existence d’Israel que de la Palestine, mais condamner les actes de génocides." },
+            { cat: "Gouvernance", title: "29. Il faut créer une nouvelle Chambre Citoyenne de Consultation et d’Expertise, s’organisant 4 fois par an pour 4 débats différents, formée de citoyens qualifiés dans leur domaine et tirés au sort pour traiter d’un sujet, afin de bâtir un dossier de propositions pour l’Assemblée Nationale." },
+            { cat: "Économie", title: "30. Il faut soutenir les TPE/PME en renforçant plusieurs aides et réductions de cotisations patronales." },
+            { cat: "Énergie", title: "31. L'installation de panneaux solaires en toiture doivent être obligatoire sur tous les nouvelles surfaces de toits commerciales, industriels et les parkings au-delà d’une certaine surface." },
+            { cat: "Étudiants", title: "32. Les bourses étudiantes doivent être reévaluée à la hausse, et un 8ème échelon rajouté." },
+            { cat: "Justice", title: "33. Lors d’une condamnation au tribunal, aucune peine ne peut être 100% avec sursis, un minimum d’amende financière doit être réclamée, couplé à la mise en place d’un barème de pondération des amendes en fonction des revenus du condamné." },
+            { cat: "Sécurité", title: "34. Il faut renforcer le budget de la police, notamment pour disposer de plus d’enquêteurs et mieux gérer la capture de criminels (notamment sexuel)." },
+            { cat: "Gouvernance", title: "35. L’exemplarité des élus impose l’inéligibilité aux postes de ministres, premier ministre et président, si le casier judiciaire n’est pas vierge." },
+            { cat: "Carburants", title: "36. Il faut investir lourdement pour concevoir une filière rentable de e-fuel vert, pour diminuer la dépendance de la France à l’importation de pétrole." },
+            { cat: "Santé", title: "37. Tout remboursement doit être supprimé pour les disciplines pseudo-médicale non reconnue et l’homéopathie." },
+            { cat: "Gouvernance", title: "38. Le pouvoir de l’exécutif (président et son gouvernement ministériel) doit être échelonné selon 3 niveaux de force en fonction de son score de légitimité aux présidentielles et législatives." },
+            { cat: "Droit de vote", title: "39. La mise en place d’un suffrage épistocratique pondérée (en rapport à l’âge et les compétences intellectuelles) permet une élection où la raison, la logique et le progressisme, doivent passer avant l’émotion et les idées réactionnaires." },
+            { cat: "Économie", title: "40. Il faut mettre en avant le Gaullisme social et le pancapitalisme, facilitant le vrai ruissellement au sein des entreprises en direction des employés, et vers l’état pour un réinvestissement vers les services publics." },
+            { cat: "Militaire", title: "41. La France doit faire des économies dans son budget militaire et revendre ses vieilles installations couteuses peu ou pas utilisées." },
+            { cat: "Agriculture", title: "42. L’agroforesterie, la replantation de haies entre les champs doit être encouragée." },
+            { cat: "Énergie", title: "43. L'isolation des passoires thermiques et le remplacement des chauffages polluants doit être encouragé." },
+            { cat: "Justice", title: "44. La justice doit à la fois porter l’accent sur la prévention et la réinsertion des primocondamnés, mais être impitoyable avec les multirécidivistes avec des durcissements de peine." },
+            { cat: "Sécurité routière", title: "45. Autorisation des 150 km/h sur les autoroutes à 3 voies, et 90 km/h hors agglomération, mais renforcement des amendes pour excès de vitesse." },
+            { cat: "Chasse", title: "46. Fin de la cynégéculture (les élevages de proies destinées à être tuées à la chasse) remplacée par des élevages de repopulation écosystémique. La chasse conservée pour les régulations des surpopulations (sangliers, cervidés…)" },
+            { cat: "Écologie urbaine", title: "47. La végétalisation des villes et l’architecture biophilique (intégrant végétaux, récupération d’eau, et architecture agréable à l’œil) doivent être encouragées." },
+            { cat: "Nettoyage des institutions", title: "48. Pour faire de l’ordre et des économies, la suppression de nombreux bureaux et services, de niches fiscales et des 240 taxes à faible rendement (TFR) est nécessaire." },
+            { cat: "Justice", title: "49. La délinquance des mineurs doit être davantage encadrée, avec des travaux d’intérêt général, des cours d’instruction civique ou des vacances en camp militaire, et une responsabilité des parents dans les frais de casse." },
+            { cat: "Médecine", title: "50. Une IA administrative de santé doit accompagner les praticiens pour faire économiser du temps sur les travaux administratifs quotidiens et pouvoir recevoir plus de patients." },
+            { cat: "Territoires", title: "51. Il faut se libérer des départements issus du découpage révolutionnaire de 1790, pour remettre en avant les régions naturelles historiques et patrimoniales (Périgord noir, Medoc, Béarn, Pays Basque, Cévennes, Quercy, Brie, Beaujolais, Perche, Cornouaille, Cotentin, Sologne, Vercors, Camargue etc…) pour former un maillage de 234 territoires locaux." },
+            { cat: "Recrutement", title: "52. Envisager un système de Test d’Admission au Travail, calibré en fonction de la profession et de différents rangs de réussite, tout en étant anonymisé, est un bon moyen pour que les recrutements se fassent à la compétence et non à la tête ou par favoritisme." },
+            { cat: "Justice", title: "53. Il faut un référendum sur le retour de la peine de mort pour les cas les plus extrêmes (attentat, infanticide)." },
+            { cat: "Spatial", title: "54. ISS allant être désorbitée à l’horizon 2030, la France doit travailler avec l’Europe, le Canada, le Japon et la Corée du sud à la construction d’une nouvelle station spatiale commune." },
+            { cat: "Salaire", title: "55. Le SMIC doit être monté à 1600€ net, mais le salaire net maximum (hors primes et dividendes) doit aussi être plafonné à 10000€." },
+            { cat: "Médecine des étrangers", title: "56. L’AME doit être supprimée, à remplacer par un système de soin d’urgence et de traitement des maladies contagieuses (l’AMU, l’aide médicale d’urgence), pour les cas les plus graves et menaçant le territoire national." },
+            { cat: "Social", title: "57. Il est normal que chaque individu dispose d’un score de fiabilité sociale qui monte avec le bon travail, le fait d’aller voter, ou de se cultiver, ou baisse avec les contraventions, la diffusion de fake news. Les scores élevés donnant quelques avantages fiscaux, des priorités à des évènements ou des accès au logement." },
+            { cat: "Immigration", title: "58. Il faut construire de nouveaux centres d’accueil des migrants, et les RSA, PPA, peuvent être demandé au bout non pas de 5ans de séjour, mais de travail." },
+            { cat: "Europe", title: "59. Il faut développer une Europe forte, autonome, capable de lutter contre les grandes puissances mondiales en y étant moins dépendante." },
+            { cat: "Politique étrangère", title: "60. Le rapprochement France-Russie et Europe-Russie doit reprendre en force, seulement si le pays redevient démocratique et s’affranchit du poutinisme." }
+        ];
+
+        let quizCurrentIndex = 0;
+        let quizAnswers = new Array(60).fill(null);
+
+        function initQuiz() {
+            renderJumpGrid();
+            renderQuestion();
+        }
+
+        function renderJumpGrid() {
+            const grid = document.getElementById('quiz-jump-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            quiz60.forEach((_, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `w-6 h-6 text-[10px] font-bold rounded flex items-center justify-center transition-all ${quizAnswers[idx] !== null ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`;
+                btn.innerText = idx + 1;
+                btn.onclick = () => {
+                    quizCurrentIndex = idx;
+                    renderQuestion();
+                };
+                grid.appendChild(btn);
+            });
+        }
+
+        function renderQuestion() {
+            const q = quiz60[quizCurrentIndex];
+            const qNumEl = document.getElementById('quiz-q-num');
+            const qPercentEl = document.getElementById('quiz-q-percent');
+            const quizBarEl = document.getElementById('quiz-bar');
+            const qCatEl = document.getElementById('quiz-q-category');
+            const qTitleEl = document.getElementById('quiz-q-title');
+
+            if (!qNumEl || !qTitleEl) return;
+
+            qNumEl.innerText = `Question ${quizCurrentIndex + 1} / 60`;
+            const percent = Math.round(((quizCurrentIndex + 1) / 60) * 100);
+            if (qPercentEl) qPercentEl.innerText = percent + '%';
+            if (quizBarEl) quizBarEl.style.width = percent + '%';
+            if (qCatEl) qCatEl.innerText = q.cat;
+            qTitleEl.innerText = q.title;
+
+            const scores = [2, 1, 0, -1, -2];
+            scores.forEach(val => {
+                const btn = document.getElementById(`opt-btn-${val}`);
+                if (btn) {
+                    btn.classList.remove('bg-sky-100', 'border-sky-500', 'text-sky-900', 'font-bold');
+                    btn.classList.add('border-slate-200', 'text-slate-700');
+                    const icon = btn.querySelector('.check-icon');
+                    if (icon) icon.className = "fa-regular fa-circle text-slate-300 check-icon";
+                }
+            });
+
+            const currentAnswer = quizAnswers[quizCurrentIndex];
+            if (currentAnswer !== null) {
+                const activeBtn = document.getElementById(`opt-btn-${currentAnswer}`);
+                if (activeBtn) {
+                    activeBtn.classList.add('bg-sky-100', 'border-sky-500', 'text-sky-900', 'font-bold');
+                    const icon = activeBtn.querySelector('.check-icon');
+                    if (icon) icon.className = "fa-solid fa-circle-check text-sky-600 check-icon";
+                }
+            }
+
+            const prevBtn = document.getElementById('quiz-prev-btn');
+            if (prevBtn) prevBtn.disabled = (quizCurrentIndex === 0);
+
+            renderJumpGrid();
+        }
+
+        function answerQuiz(scoreValue) {
+            quizAnswers[quizCurrentIndex] = scoreValue;
+            renderQuestion();
+
+            setTimeout(() => {
+                if (quizCurrentIndex < 59) {
+                    quizCurrentIndex++;
+                    renderQuestion();
+                } else {
+                    finishQuiz();
+                }
+            }, 200);
+        }
+
+        function prevQuiz() {
+            if (quizCurrentIndex > 0) {
+                quizCurrentIndex--;
+                renderQuestion();
+            }
+        }
+
+        function renderHistogram(userScore) {
+            let scoresDict = JSON.parse(localStorage.getItem('asn_quiz_stats_dict')) || {};
+            scoresDict[clientIp] = userScore;
+            localStorage.setItem('asn_quiz_stats_dict', JSON.stringify(scoresDict));
+
+            let baseCounts = [0, 1, 2, 3, 4, 5, 5, 4, 3, 2];
+            Object.values(scoresDict).forEach(score => {
+                let bin = Math.min(Math.floor(score / 10), 9);
+                baseCounts[bin]++;
+            });
+
+            const maxVal = Math.max(...baseCounts, 1);
+            const container = document.getElementById('histogram-container');
+            if (!container) return;
+
+            let userBin = Math.min(Math.floor(userScore / 10), 9);
+
+            container.innerHTML = baseCounts.map((cnt, idx) => {
+                let heightPercent = Math.round((cnt / maxVal) * 100);
+                if (heightPercent < 4 && cnt > 0) heightPercent = 4;
+
+                const isUserBin = (idx === userBin);
+                const bgClass = isUserBin ? 'bg-amber-400 border-amber-500' : 'bg-[#6bc3e9] border-sky-400';
+
+                return `
+                    <div class="flex-1 h-full flex flex-col justify-end items-center px-0.5">
+                        <div class="w-full ${bgClass} border-t border-x rounded-t transition-all duration-500" style="height: ${heightPercent}%;" title="Tranche ${idx*10}-${(idx+1)*10}%"></div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function finishQuiz() {
+            let totalPoints = 0;
+            let answeredCount = 0;
+
+            quizAnswers.forEach(ans => {
+                if (ans !== null) {
+                    totalPoints += ans;
+                    answeredCount++;
+                }
+            });
+
+            if (answeredCount === 0) return;
+
+            const maxPoints = answeredCount * 2;
+            const percentage = Math.round(((totalPoints + maxPoints) / (2 * maxPoints)) * 100);
+
+            const quizContainer = document.getElementById('quiz-container');
+            const resultsBox = document.getElementById('quiz-results');
+            if (quizContainer) quizContainer.classList.add('hidden');
+            if (resultsBox) resultsBox.classList.remove('hidden');
+
+            const scoreEl = document.getElementById('quiz-result-score');
+            if (scoreEl) scoreEl.innerText = percentage + '%';
+
+            let msg = "";
+            if (percentage >= 85) {
+                msg = `<strong>Excellente proximité avec l'ASN (${percentage}%) !</strong><br>Vos réponses montrent une grande convergence avec la vision noocratique : rigueur scientifique, refonte des institutions, écologie à pleine vitesse et rééquilibrage social. Un vrai partisan de l'ASN! N'hésitez pas à consulter en détail les articles du programme de l'ASN pour en savoir encore plus!`;
+            } else if (percentage >= 70) {
+                msg = `<strong>Forte proximité avec l'ASN (${percentage}%)</strong><br>Vous partagez de nombreux points du programme, n'hésitez pas à consulter les articles du programme de l'ASN pour en savoir plus!`;
+            } else if (percentage >= 50) {
+                msg = `<strong>Proximité modérée avec l'ASN (${percentage}%)</strong><br>Vous partagez plusieurs priorités majeures du programme tout en conservant des réserves sur certains mécanismes. Renseignez-vous auprès des différents articles du programme pour comprendre notre vision.`;
+            } else {
+                msg = `<strong>Faible proximité avec l'ASN (${percentage}%)</strong><br>Vos convictions actuelles s'éloignent du modèle noocratique. L'ASN privilégie la confrontation scientifique et le débat citoyen. Renseignez-vous auprès des différents articles du programme pour comprendre notre vision.`;
+            }
+
+            const resultTextEl = document.getElementById('quiz-result-text');
+            if (resultTextEl) resultTextEl.innerHTML = msg;
+
+            renderHistogram(percentage);
+        }
+
+        function resetQuiz() {
+            quizAnswers = new Array(60).fill(null);
+            quizCurrentIndex = 0;
+            const resultsBox = document.getElementById('quiz-results');
+            const quizContainer = document.getElementById('quiz-container');
+            if (resultsBox) resultsBox.classList.add('hidden');
+            if (quizContainer) quizContainer.classList.remove('hidden');
+            renderQuestion();
+        }
+
+        // INITIALISATION
+        window.addEventListener('DOMContentLoaded', () => {
+            renderVoletsGrid();
+            initQuiz();
+            loadGameQuestion();
+            updateProgressBar();
+            updateSupportCounterDisplay();
+            renderComments();
+
+            if (isAdminLoggedIn) {
+                const adminBadge = document.getElementById('admin-badge');
+                const adminDashboard = document.getElementById('admin-dashboard-card');
+                if (adminBadge) {
+                    adminBadge.classList.remove('hidden');
+                    adminBadge.classList.add('flex');
+                }
+                if (adminDashboard) {
+                    adminDashboard.classList.remove('hidden');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
