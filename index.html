@@ -1906,7 +1906,7 @@
         </div>
     </footer>
 
-    <!-- SCRIPT JS COMPLET ET STRUCTURE DE DONNEES -->
+<!-- SCRIPT JS COMPLET ET STRUCTURE DE DONNEES -->
     <script>
         // DONNEES COMPLETES DES 10 VOLETS DU PROGRAMME
         let defaultProgramVolets = [
@@ -2492,8 +2492,8 @@ En somme, ce projet d'écorégions et de territoires vise à redonner de l'attra
             const newArtId = "article_" + Date.now();
             const newArticle = {
                 id: newArtId,
-                title: "Titre",
-                content: "nouvelle idée"
+                title: "Nouveau titre d'article",
+                content: "Écrivez le contenu ici..."
             };
 
             if (!volet.articles) volet.articles = [];
@@ -3272,73 +3272,81 @@ En somme, ce projet d'écorégions et de territoires vise à redonner de l'attra
         }
 
         // ==========================================
-        // FONCTION DE PUBLICATION SUR GITHUB
+        // FONCTION DE PUBLICATION SUR GITHUB (CORRIGÉE)
         // ==========================================
-        async function publierSurGitHub(nouveauCodeHtml) {
-    // Demande le token s'il n'est pas enregistré dans le navigateur
-    let token = localStorage.getItem("github_admin_token");
-    if (!token) {
-        token = prompt("Veuillez entrer votre Personal Access Token (PAT) GitHub pour publier :");
-        if (!token) return;
-        localStorage.setItem("github_admin_token", token);
-    }
-
-    const proprietaire = "site-officiel-asn";
-    const depot = "Site-Officiel-ASN";
-    const cheminFichier = "index.html";
-
-    const urlFichier = `https://api.github.com/repos/${proprietaire}/${depot}/contents/${cheminFichier}`;
-    
-    try {
-        // 1. Récupérer le SHA actuel du fichier
-        const reponseGet = await fetch(urlFichier, {
-            headers: { 
-                "Authorization": `token ${token}`,
-                "Accept": "application/vnd.github.v3+json"
-            },
-            cache: "no-store"
-        });
-        
-        if (!reponseGet.ok) {
-            if (reponseGet.status === 401) {
-                localStorage.removeItem("github_admin_token");
-                throw new Error("Token invalide ou expiré.");
+        async function publierSurGitHub() {
+            let token = localStorage.getItem("github_admin_token");
+            if (!token) {
+                token = prompt("Veuillez entrer votre Personal Access Token (PAT) GitHub pour publier :");
+                if (!token) return;
+                localStorage.setItem("github_admin_token", token);
             }
-            throw new Error("Impossible de récupérer le fichier (Erreur " + reponseGet.status + ")");
+
+            const proprietaire = "site-officiel-asn"; // Remplacez si besoin par votre username GitHub
+            const depot = "Site-Officiel-ASN";           // Remplacez si besoin par le nom de votre dépôt
+            const cheminFichier = "index.html";
+
+            const urlFichier = `https://api.github.com/repos/${proprietaire}/${depot}/contents/${cheminFichier}`;
+            
+            try {
+                // 1. Récupérer le SHA actuel du fichier sur GitHub
+                const reponseGet = await fetch(urlFichier, {
+                    headers: { 
+                        "Authorization": `token ${token}`,
+                        "Accept": "application/vnd.github.v3+json"
+                    },
+                    cache: "no-store"
+                });
+                
+                if (!reponseGet.ok) {
+                    if (reponseGet.status === 401) {
+                        localStorage.removeItem("github_admin_token");
+                        throw new Error("Token invalide ou expiré.");
+                    }
+                    throw new Error("Impossible de récupérer le fichier (Erreur " + reponseGet.status + ")");
+                }
+                
+                const donneesFichier = await reponseGet.json();
+                const shaActuel = donneesFichier.sha;
+
+                // 2. Mettre à jour dynamiquement la variable programVolets dans le code source HTML actuel
+                let htmlActuel = document.documentElement.outerHTML;
+                const newJsonStr = JSON.stringify(programVolets, null, 4);
+                const pattern = /let defaultProgramVolets = \[[\s\S]*?\];/;
+                
+                if (pattern.test(htmlActuel)) {
+                    htmlActuel = htmlActuel.replace(pattern, `let defaultProgramVolets = ${newJsonStr};`);
+                }
+
+                // 3. Encoder le code HTML mis à jour en Base64 UTF-8 sécurisé
+                const contenuBase64 = btoa(unescape(encodeURIComponent(htmlActuel)));
+
+                // 4. Envoyer le commit de mise à jour sur GitHub
+                const reponsePut = await fetch(urlFichier, {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": `token ${token}`,
+                        "Content-Type": "application/json",
+                        "Accept": "application/vnd.github.v3+json"
+                    },
+                    body: JSON.stringify({
+                        message: "Mise à jour du contenu, des articles et images depuis le mode admin",
+                        content: contenuBase64,
+                        sha: shaActuel
+                    })
+                });
+
+                if (reponsePut.ok) {
+                    alert("Publication réussie sur GitHub ! Vos modifications d'articles et d'images ont été enregistrées de manière permanente. Le site sera à jour dans une minute.");
+                } else {
+                    const errData = await reponsePut.json();
+                    throw new Error(errData.message || "Erreur lors de la mise à jour.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Une erreur est survenue : " + err.message);
+            }
         }
-        
-        const donneesFichier = await reponseGet.json();
-        const shaActuel = donneesFichier.sha; // Correction de la variable ici
-
-        // 2. Encoder le nouveau code en Base64
-        const contenuBase64 = btoa(unescape(encodeURIComponent(nouveauCodeHtml)));
-
-        // 3. Envoyer la mise à jour
-        const reponsePut = await fetch(urlFichier, {
-            method: "PUT",
-            headers: {
-                "Authorization": `token ${token}`,
-                "Content-Type": "application/json",
-                "Accept": "application/vnd.github.v3+json"
-            },
-            body: JSON.stringify({
-                message: "Mise à jour automatique depuis le mode admin",
-                content: contenuBase64,
-                sha: shaActuel
-            })
-        });
-
-        if (reponsePut.ok) {
-            alert("Publication réussie sur GitHub ! Le site sera à jour dans une minute.");
-        } else {
-            const errData = await reponsePut.json();
-            throw new Error(errData.message || "Erreur lors de la mise à jour.");
-        }
-    } catch (err) {
-        console.error(err);
-        alert("Une erreur est survenue : " + err.message);
-    }
-}
 
         // INITIALISATION
         window.addEventListener('DOMContentLoaded', () => {
