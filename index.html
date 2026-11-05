@@ -4260,7 +4260,7 @@
         }
 
         // ==========================================
-        // FONCTION DE PUBLICATION SUR GITHUB (CORRIGÉE)
+        // FONCTION DE PUBLICATION SUR GITHUB (CORRIGÉE & CIBLÉE ACCUEIL)
         // ==========================================
         async function publierSurGitHub() {
             let token = localStorage.getItem("github_admin_token");
@@ -4295,20 +4295,35 @@
                 }
                 
                 const donneesFichier = await reponseGet.json();
-                const shaActuel = donneesFichier ? donneesFichier.sha : null; // Sécurité de lecture du sha
+                const shaActuel = donneesFichier ? donneesFichier.sha : null;
 
-                // 2. Préparer le HTML à envoyer en forçant la déconnexion admin pour le public
-                // On sauvegarde temporairement l'état admin local
+                // 2. Préparer le HTML à envoyer
                 const wasAdmin = isAdminLoggedIn;
 
-                // On bascule temporairement en mode public dans le DOM avant la copie
+                // Forcer la déconnexion visuelle admin pour le public
                 isAdminLoggedIn = false;
                 document.getElementById('admin-badge').classList.add('hidden');
                 document.getElementById('admin-badge').classList.remove('flex');
                 const adminDashboard = document.getElementById('admin-dashboard-card');
                 if (adminDashboard) adminDashboard.classList.add('hidden');
 
-                // Récupération du HTML propre (sans les panneaux admin ouverts)
+                // CORRECTION : Forcer l'affichage de l'onglet Accueil dans le HTML envoyé
+                // pour que les visiteurs arrivent toujours sur l'accueil par défaut
+                document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+                const accueilTab = document.getElementById('content-accueil');
+                if (accueilTab) accueilTab.classList.add('active');
+
+                document.querySelectorAll('.nav-btn').forEach(el => {
+                    el.classList.remove('bg-sky-50', 'text-sky-800');
+                    el.classList.add('text-slate-600');
+                });
+                const navAccueil = document.getElementById('nav-accueil');
+                if (navAccueil) {
+                    navAccueil.classList.remove('text-slate-600');
+                    navAccueil.classList.add('bg-sky-50', 'text-sky-800');
+                }
+
+                // Récupération du HTML propre positionné sur l'accueil
                 let htmlActuel = document.documentElement.outerHTML;
 
                 // Mettre à jour le tableau des volets/articles
@@ -4318,7 +4333,7 @@
                     htmlActuel = htmlActuel.replace(pattern, `let defaultProgramVolets = ${newJsonStr};`);
                 }
 
-                // Rétablir l'affichage admin sur votre propre écran local
+                // Rétablir l'affichage et l'onglet actif sur votre propre écran local
                 if (wasAdmin) {
                     isAdminLoggedIn = true;
                     document.getElementById('admin-badge').classList.remove('hidden');
@@ -4326,7 +4341,7 @@
                     if (adminDashboard) adminDashboard.classList.remove('hidden');
                 }
 
-                // 3. Encoder le code HTML propre en Base64 UTF-8 sécurisé
+                // 3. Encoder le code HTML en Base64
                 const contenuBase64 = btoa(unescape(encodeURIComponent(htmlActuel)));
 
                 // 4. Envoyer le commit de mise à jour sur GitHub
@@ -4338,14 +4353,14 @@
                         "Accept": "application/vnd.github.v3+json"
                     },
                     body: JSON.stringify({
-                        message: "Mise à jour du contenu du programme depuis le mode admin (version publique nettoyée)",
+                        message: "Mise à jour du programme et ciblage de la page d'accueil par défaut",
                         content: contenuBase64,
-                        sha: donneesFichier.sha
+                        sha: shaActuel
                     })
                 });
 
                 if (reponsePut.ok) {
-                    alert("Publication réussie sur GitHub ! Le site est mis à jour et s'affichera désormais bien en mode public sécurisé pour tous les visiteurs.");
+                    alert("Publication réussie ! Le site ciblera désormais correctement la page d'accueil pour tous les nouveaux visiteurs.");
                 } else {
                     const errData = await reponsePut.json();
                     throw new Error(errData.message || "Erreur lors de la mise à jour.");
@@ -4355,7 +4370,6 @@
                 alert("Une erreur est survenue : " + err.message);
             }
         }
-
         // INITIALISATION
         window.addEventListener('DOMContentLoaded', () => {
             renderVoletsGrid();
